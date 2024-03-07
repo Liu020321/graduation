@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block css %}
+<!-- Plugins css start-->
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename=  'assets/css/vendors/select2.scss.css')}}">
+<link rel="stylesheet" type="text/css"
+      href="{{ url_for('static', filename=  'assets/css/vendors/owlcarousel.scss.css')}}">
+<link rel="stylesheet" type="text/css"
+      href="{{ url_for('static', filename=  'assets/css/vendors/range-slider.scss.css')}}">
+<!-- Plugins css Ends-->
+{% endblock %}
+
+{% block content %}
+
+<div class="page-body">
+      <div class="container-fluid product-wrapper">
+            
+            {% include "layout/breadcrumb.html" %}
+           
+                 
+
+                        {% include "applications/ecommerce/product/components/filters.html" %}
+                        {% include "applications/ecommerce/product/components/product-1.html" %}
+                        {% include "applications/ecommerce/product/components/product-2.html" %}
+                        {% include "applications/ecommerce/product/components/product-3.html" %}
+                        {% include "applications/ecommerce/product/components/product-4.html" %}
+                        {% include "applications/ecommerce/product/components/product-5.html" %}
+                        {% include "applications/ecommerce/product/components/product-6.html" %}
+
+
+                 
+           
+      </div>
+</div>
+
+{% endblock %}
+
+{% block scriptcontent %}
+<!-- Plugins JS start-->
+<script src="{{ url_for('static', filename='assets/js/range-slider/ion.rangeSlider.min.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/range-slider/rangeslider-script.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/touchspin/vendors.min.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/touchspin/touchspin.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/touchspin/input-groups.min.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/owlcarousel/owl.carousel.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/select2/select2.full.min.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/select2/select2-custom.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/tooltip-init.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/product-tab.js')}}"></script>
+<!-- Plugins JS Ends-->
+{% endblock %}

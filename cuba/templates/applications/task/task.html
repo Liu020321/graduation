@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block css %}
+<!-- Plugins css start-->
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename=  'assets/css/vendors/select2.scss.css')}}">
+<link rel="stylesheet" type="text/css"
+      href="{{ url_for('static', filename=  'assets/css/vendors/date-picker.scss.css')}}">
+<!-- Plugins css Ends-->
+{% endblock %}
+
+{% block content %}
+
+<div class="page-body">
+      <div class="container-fluid">
+            {% include "layout/breadcrumb.html" %}
+
+            {% include "applications/task/components/new-task.html" %}
+            {% include "applications/task/components/created.html" %}
+            {% include "applications/task/components/task-name.html" %}
+            {% include "applications/task/components/my-tasks.html" %}
+
+      </div>
+</div>
+
+{% endblock %}
+
+{% block scriptcontent %}
+<!-- Plugins JS start-->
+<script src="{{ url_for('static', filename='assets/js/datepicker/date-picker/datepicker.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/datepicker/date-picker/datepicker.en.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/datepicker/date-picker/datepicker.custom.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/select2/select2.full.min.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/select2/select2-custom.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/form-validation-custom.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/task/custom.js')}}"></script>
+<!-- Plugins JS Ends-->
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends 'base-other-page.html' %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% block css %}
+<!-- Plugins css start-->
+<link rel="stylesheet" type="text/css"
+    href="{{ url_for('static', filename=  'assets/css/vendors/sweetalert2.scss.css')}}">
+<!-- Plugins css Ends-->
+{% endblock %}
+
+{% block content %}
+
+{% include "pages/others/authentication/login-sa-validation/components/login-sa-validation.html" %}
+
+{% endblock %}
+
+{% block scriptcontent %}
+<!-- Plugins JS start-->
+<script src="{{ url_for('static', filename='assets/js/sweet-alert/sweetalert.min.js')}}"></script>
+<!-- Plugins JS Ends-->
+{% endblock %}

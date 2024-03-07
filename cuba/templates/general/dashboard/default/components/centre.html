@@ -1,0 +1,124 @@
+<div class="row">
+<div class="col-xxl-6 col-xl-6 col-md-12 col-sm-12 notification box-col-12">
+  <div class="card height-equal">
+    <div class="card-header card-no-border">
+      <div class="header-top">
+        <h5 class="m-0">任务列表</h5>
+        <div class="card-header-right-icon">
+          <div class="dropdown">
+            <button class="btn dropdown-toggle" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false">今天</button>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton"><a class="dropdown-item"
+                href="#">今天</a><a class="dropdown-item" href="#">明天</a><a class="dropdown-item"
+                href="#">昨天 </a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body pt-0">
+      <ul>
+        <li class="d-flex">
+          <div class="activity-dot-primary"></div>
+          <div class="w-100 ms-3">
+            <p class="d-flex justify-content-between mb-2"><span class="date-content light-background">5月8日, 2024
+              </span><span>1天前</span></p>
+            <h6>升级产品<span class="dot-notification"></span></h6>
+            <p class="f-light">对于系统进行一次小升级...</p>
+          </div>
+        </li>
+        <li class="d-flex">
+          <div class="activity-dot-warning"></div>
+          <div class="w-100 ms-3">
+            <p class="d-flex justify-content-between mb-2"><span class="date-content light-background">10月15日, 2024
+              </span><span>今天</span></p>
+            <h6>完成所有阅片任务<span class="dot-notification"></span></h6>
+            <p class="f-light">仔细浏览每一张医疗图片并给出诊断... </p>
+          </div>
+        </li>
+        <li class="d-flex">
+          <div class="activity-dot-secondary"></div>
+          <div class="w-100 ms-3">
+            <p class="d-flex justify-content-between mb-2"><span class="date-content light-background">9月20日, 2024
+              </span><span>12:00 PM</span></p>
+            <h6>诊断今日所有的挂号患者<span class="dot-notification"></span></h6>
+            <p class="f-light">认真核实每位病人的病历... </p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="col-xxl-6 col-xl-6 col-md-12 appointment-sec box-col-12">
+  <div class="appointment">
+    <div class="card">
+      <div class="card-header card-no-border">
+        <div class="header-top">
+          <h5 class="m-0">最近诊断</h5>
+          <div class="card-header-right-icon">
+            <div class="dropdown">
+              <button class="btn dropdown-toggle" id="recentButton" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">今天</button>
+              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="recentButton"><a class="dropdown-item"
+                  href="#">今天</a><a class="dropdown-item" href="#">明天</a><a class="dropdown-item"
+                  href="#">昨天</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body pt-0">
+        <div class="appointment-table table-responsive">
+          <table class="table table-bordernone">
+            <tbody>
+              <tr>
+                <td><img class="img-fluid img-40 rounded-circle"
+                    src="{{ url_for('static', filename='assets/images/user/1.jpg')}}" alt="user"></td>
+                <td class="img-content-box"><a class="d-block f-w-500" href="user-profile.html">刘天霸</a><span
+                    class="f-light">10分钟前</span></td>
+                <td class="text-end">
+                  <p class="m-0 font-success">$200.00</p>
+                </td>
+              </tr>
+              <tr>
+                <td><img class="img-fluid img-40 rounded-circle"
+                    src="{{ url_for('static', filename='assets/images/user/5.jpg')}}" alt="user"></td>
+                <td class="img-content-box"><a class="d-block f-w-500" href="user-profile.html">黄天霸</a>
+                    <span class="f-light">19分钟前</span></td>
+                <td class="text-end">
+                  <p class="m-0 font-success">$970.00</p>
+                </td>
+              </tr>
+              <tr>
+                <td><img class="img-fluid img-40 rounded-circle"
+                    src="{{ url_for('static', filename='assets/images/user/8.jpg')}}" alt="user"></td>
+                <td class="img-content-box"><a class="d-block f-w-500" href="user-profile.html">王天霸</a>
+                    <span class="f-light">2小时前</span></td>
+                <td class="text-end">
+                  <p class="m-0 font-success">$300.00</p>
+                </td>
+              </tr>
+              <tr>
+                <td><img class="img-fluid img-40 rounded-circle"
+                    src="{{ url_for('static', filename='assets/images/user/4.jpg')}}" alt="user"></td>
+                <td class="img-content-box"><a class="d-block f-w-500" href="user-profile.html">李天霸</a><span
+                    class="f-light">8小时前</span></td>
+                <td class="text-end">
+                  <p class="m-0 font-success">$450.00</p>
+                </td>
+              </tr>
+              <tr>
+                <td><img class="img-fluid img-40 rounded-circle"
+                    src="{{ url_for('static', filename='assets/images/user/2.png')}}" alt="user"></td>
+                <td class="img-content-box"><a class="d-block f-w-500" href="user-profile.html">张天霸</a><span
+                    class="f-light">1天前</span></td>
+                <td class="text-end">
+                  <p class="m-0 font-success">$768.00</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

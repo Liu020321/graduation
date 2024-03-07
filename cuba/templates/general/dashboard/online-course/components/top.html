@@ -1,0 +1,85 @@
+<div class="col-xxl-5 col-ed-6 col-xl-8 box-col-7">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card o-hidden welcome-card">
+        <div class="card-body">
+          <h4 class="mb-3 mt-1 f-w-500 mb-0 f-22">你好，{{ username }}<span> <img
+                src="{{ url_for('static', filename='assets/images/dashboard-3/hand.svg')}}" alt="hand vector"></span>
+          </h4>
+          <p>这里将会显示你的个人任务书以及日程报告！</p>
+            <p>好好工作吧，打工人！</p>
+        </div><img class="welcome-img" src="{{ url_for('static', filename='assets/images/dashboard-3/widget.svg')}}"
+          alt="search image">
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card course-box">
+        <div class="card-body">
+          <div class="course-widget">
+            <div class="course-icon">
+              <svg class="fill-icon">
+                <use href="{{ url_for('static', filename='assets/svg/icon-sprite.svg#course-1')}}"></use>
+              </svg>
+            </div>
+            <div>
+              <h4 class="mb-0">100+</h4><span class="f-light">待处理照片</span><a class="btn btn-light f-light"
+                href="learning-list-view.html">点击查看<span class="ms-2">
+                  <svg class="fill-icon f-light">
+                    <use href="{{ url_for('static', filename='assets/svg/icon-sprite.svg#arrowright')}}"></use>
+                  </svg></span></a>
+            </div>
+          </div>
+        </div>
+        <ul class="square-group">
+          <li class="square-1 warning"></li>
+          <li class="square-1 primary"></li>
+          <li class="square-2 warning1"></li>
+          <li class="square-3 danger"></li>
+          <li class="square-4 light"></li>
+          <li class="square-5 warning"></li>
+          <li class="square-6 success"></li>
+          <li class="square-7 success"></li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card course-box">
+        <div class="card-body">
+          <div class="course-widget">
+            <div class="course-icon warning">
+              <svg class="fill-icon">
+                <use href="{{ url_for('static', filename='assets/svg/icon-sprite.svg#course-2')}}"></use>
+              </svg>
+            </div>
+            <div>
+              <h4 class="mb-0">50+</h4><span class="f-light">已处理照片</span><a class="btn btn-light f-light"
+                href="learning-list-view.html">点击查看<span class="ms-2">
+                  <svg class="fill-icon f-light">
+                    <use href="{{ url_for('static', filename='assets/svg/icon-sprite.svg#arrowright')}}"></use>
+                  </svg></span></a>
+            </div>
+          </div>
+        </div>
+        <ul class="square-group">
+          <li class="square-1 warning"></li>
+          <li class="square-1 primary"></li>
+          <li class="square-2 warning1"></li>
+          <li class="square-3 danger"></li>
+          <li class="square-4 light"></li>
+          <li class="square-5 warning"></li>
+          <li class="square-6 success"></li>
+          <li class="square-7 success"></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-xxl-7 col-ed-6 col-xl-5 col-sm-6 box-col-5">
+  <div class="card">
+    <div class="card-body">
+      <div class="default-datepicker">
+        <div class="datepicker-here" data-language="en"></div>
+      </div>
+    </div>
+  </div>
+</div>

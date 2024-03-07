@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+
+{% block css %} 
+<!-- Plugins css start-->
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'assets/css/vendors/date-picker.scss.css')}}">
+<!-- Plugins css Ends-->
+{% endblock %}
+
+{% block content %}
+
+<div class="page-body">
+  <div class="container-fluid">
+    {% include "layout/breadcrumb.html" %}
+    <div class="row">
+      {% include "general/widget/general-widget/components/crypto-dashboard.html" %}
+      {% include "general/widget/general-widget/components/visitors.html" %}
+      {% include "general/widget/general-widget/components/social.html" %}
+
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scriptcontent %}
+<!-- Plugins JS start-->
+
+
+<script src="{{ url_for('static', filename= 'assets/js/chart/apex-chart/apex-chart.js')}}"></script>
+<script src="{{ url_for('static', filename= 'assets/js/chart/apex-chart/stock-prices.js')}}"></script>
+<script src="{{ url_for('static', filename= 'assets/js/datepicker/date-picker/datepicker.js')}}"></script>
+<script src="{{ url_for('static', filename= 'assets/js/datepicker/date-picker/datepicker.en.js')}}"></script>
+<script src="{{ url_for('static', filename= 'assets/js/datepicker/date-picker/datepicker.custom.js')}}"></script>
+<script src="{{ url_for('static', filename= 'assets/js/general-widget.js')}}"></script>
+<script src="{{ url_for('static', filename= 'assets/js/height-equal.js')}}"></script>
+<!-- Plugins JS Ends-->
+{% endblock %}

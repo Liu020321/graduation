@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block css %}
+<!-- Plugins css start-->
+<link rel="stylesheet" type="text/css"
+    href="{{ url_for('static', filename=  'assets/css/vendors/datatables.scss.css')}}">
+<!-- Plugins css Ends-->
+{% endblock %}
+
+{% block content %}
+
+<div class="page-body">
+    <div class="container-fluid">
+        {% include "layout/breadcrumb.html" %}
+        <div class="row">
+            <div class="col-sm-12">
+                {% include "applications/ecommerce/order-history/components/new-orders.html" %}
+                {% include "applications/ecommerce/order-history/components/shipped-orders.html" %}
+                {% include "applications/ecommerce/order-history/components/cancelled-orders.html" %}
+
+
+
+            </div>
+
+            {% include "applications/ecommerce/order-history/components/datatable-order.html" %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scriptcontent %}
+<!-- Plugins JS start-->
+<script src="{{ url_for('static', filename='assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/datatable/datatables/datatable.custom.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/tooltip-init.js')}}"></script>
+<!-- Plugins JS Ends-->
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block css %}
+<!-- Plugins css start-->
+<link rel="stylesheet" type="text/css"
+      href="{{ url_for('static', filename=  'assets/css/vendors/owlcarousel.scss.css')}}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename=  'assets/css/vendors/rating.scss.css')}}">
+<!-- Plugins css Ends-->
+{% endblock %}
+
+{% block content %}
+
+<div class="page-body">
+      <div class="container-fluid">
+            {% include "layout/breadcrumb.html" %}
+
+            {% include "applications/ecommerce/product-page/components/product-page-1.html" %}
+            {% include "applications/ecommerce/product-page/components/product-page-2.html" %}
+
+      </div>
+</div>
+
+{% endblock %}
+
+{% block scriptcontent %}
+<!-- Plugins JS start-->
+<script src="{{ url_for('static', filename='assets/js/rating/jquery.barrating.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/rating/rating-script.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/owlcarousel/owl.carousel.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/ecommerce.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/tooltip-init.js')}}"></script>
+<!-- Plugins JS Ends-->
+{% endblock %}

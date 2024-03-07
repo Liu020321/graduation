@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block css %}
+<!-- Plugins css start-->
+<link rel="stylesheet" type="text/css"
+      href="{{ url_for('static', filename=  'assets/css/vendors/datatables.scss.css')}}">
+<!-- Plugins css Ends-->
+{% endblock %}
+
+{% block content %}
+
+<div class="page-body">
+      <div class="container-fluid">
+            {% include "layout/breadcrumb.html" %}
+            <div class="row">
+
+                  {% include "forms-table/table/data-table/datatable-basic/components/zero-configuration.html" %}
+                  {% include "forms-table/table/data-table/datatable-basic/components/complex-headers.html" %}
+                  {% include "forms-table/table/data-table/datatable-basic/components/state-saving.html" %}
+                  {% include "forms-table/table/data-table/datatable-basic/components/scroll-vertical-dynamic.html" %}
+
+            </div>
+      </div>
+</div>
+
+{% endblock %}
+
+{% block scriptcontent %}
+<!-- Plugins JS start-->
+<script src="{{ url_for('static', filename='assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/datatable/datatables/datatable.custom.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/tooltip-init.js')}}"></script>
+<!-- Plugins JS Ends-->
+{% endblock %}

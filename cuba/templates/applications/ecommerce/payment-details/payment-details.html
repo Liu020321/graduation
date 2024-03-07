@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block css %}
+<!-- Plugins css start-->
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename=  'assets/css/vendors/select2.scss.css')}}">
+<link rel="stylesheet" type="text/css"
+      href="{{ url_for('static', filename=  'assets/css/vendors/owlcarousel.scss.css')}}">
+<link rel="stylesheet" type="text/css"
+      href="{{ url_for('static', filename=  'assets/css/vendors/range-slider.scss.css')}}">
+<!-- Plugins css Ends-->
+{% endblock %}
+
+{% block content %}
+
+<div class="page-body">
+      <div class="container-fluid credit-card">
+            {% include "layout/breadcrumb.html" %}
+            <div class="row">
+                  {% include "applications/ecommerce/payment-details/components/credit-card.html" %}
+                  {% include "applications/ecommerce/payment-details/components/debit-card.html" %}
+                  {% include "applications/ecommerce/payment-details/components/cod.html" %}
+                  {% include "applications/ecommerce/payment-details/components/emi.html" %}
+                  {% include "applications/ecommerce/payment-details/components/net-banking.html" %}
+
+            </div>
+      </div>
+</div>
+
+{% endblock %}
+
+{% block scriptcontent %}
+<!-- Plugins JS start-->
+<script src="{{ url_for('static', filename='assets/js/tooltip-init.js')}}"></script>
+<!-- Plugins JS Ends-->
+{% endblock %}

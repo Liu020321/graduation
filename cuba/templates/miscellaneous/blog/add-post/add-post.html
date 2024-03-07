@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block css %}
+<!-- Plugins css start-->
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename=  'assets/css/vendors/select2.scss.css')}}">
+<link rel="stylesheet" type="text/css"
+      href="{{ url_for('static', filename=  'assets/css/vendors/dropzone.scss.css')}}">
+<!-- Plugins css Ends-->
+{% endblock %}
+
+{% block content %}
+
+<div class="page-body">
+      <div class="container-fluid">
+            {% include "layout/breadcrumb.html" %}
+
+            {% include "miscellaneous/blog/add-post/components/add-post.html" %}
+
+      </div>
+</div>
+
+{% endblock %}
+
+{% block scriptcontent %}
+<!-- Plugins JS start-->
+<script src="{{ url_for('static', filename='assets/js/editor/ckeditor/ckeditor.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/editor/ckeditor/adapters/jquery.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/dropzone/dropzone.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/dropzone/dropzone-script.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/select2/select2.full.min.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/select2/select2-custom.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/email-app.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/form-validation-custom.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/tooltip-init.js')}}"></script>
+<!-- Plugins JS Ends-->
+{% endblock %}

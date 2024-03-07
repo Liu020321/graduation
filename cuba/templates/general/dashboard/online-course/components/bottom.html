@@ -1,0 +1,89 @@
+<div class="col-xxl-4 col-ed-6 col-md-7 box-col-7">
+  <div class="card schedule-card">
+    <div class="card-header card-no-border">
+      <div class="header-top">
+        <h5 class="m-0">日程安排</h5>
+        <div class="card-header-right-icon"><a class="btn badge-light-primary" href="#">+ 创建</a></div>
+      </div>
+    </div>
+    <div class="card-body pt-0">
+      <ul class="schedule-list">
+        <li class="primary"><img src="{{ url_for('static', filename='assets/images/user/4.jpg')}}"
+            alt="profile">
+          <div>
+            <h6 class="mb-1">网站设计</h6>
+            <ul>
+              <li class="f-light">
+                <svg class="fill-icon f-light">
+                  <use href="{{ url_for('static', filename='assets/svg/icon-sprite.svg')}}#bag"></use>
+                </svg><span>1月3日, 2022</span>
+              </li>
+              <li class="f-light">
+                <svg class="fill-icon f-success">
+                  <use href="{{ url_for('static', filename='assets/svg/icon-sprite.svg')}}#clock"></use>
+                </svg><span> 09.00 - 12.00 AM</span>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="warning"><img src="{{ url_for('static', filename='assets/images/user/8.jpg')}}"
+            alt="profile">
+          <div>
+            <h6 class="mb-1">UI/UX 设计</h6>
+            <ul>
+              <li class="f-light">
+                <svg class="fill-icon f-light">
+                  <use href="{{ url_for('static', filename='assets/svg/icon-sprite.svg')}}#bag"></use>
+                </svg><span>2月10日, 2022</span>
+              </li>
+              <li class="f-light">
+                <svg class="fill-icon f-success">
+                  <use href="{{ url_for('static', filename='assets/svg/icon-sprite.svg')}}#clock"></use>
+                </svg><span> 11.00 - 1.00 PM</span>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="col-xxl-3 col-ed-6 col-md-5 col-sm-6 box-col-5">
+  <div class="card">
+    <div class="card-header card-no-border">
+      <div class="header-top">
+        <h5 class="m-0">正在进行的日程</h5>
+        <div class="card-header-right-icon"><a class="link-only" href="#">查看 <i data-feather="arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="card-body pt-0">
+      <ul class="lessons-lists">
+        <li> <img src="{{ url_for('static', filename='assets/images/dashboard-3/lessons/1.png')}}" alt="ux icon">
+          <div>
+            <h6 class="f-14 f-w-400 mb-0">UI/UX </h6><span class="f-light">Web 设计</span>
+          </div>
+          <div class="lesson-wrap ms-auto">
+            <div id="lessonChart1"> </div>
+          </div>
+        </li>
+        <li> <img src="{{ url_for('static', filename='assets/images/dashboard-3/lessons/2.png')}}" alt="vue icon">
+          <div>
+            <h6 class="f-14 f-w-400 mb-0">Vue 3</h6><span class="f-light">JS 架构</span>
+          </div>
+          <div class="lesson-wrap ms-auto">
+            <div id="lessonChart2"></div>
+          </div>
+        </li>
+        <li> <img src="{{ url_for('static', filename='assets/images/dashboard-3/lessons/3.png')}}" alt="bootstrap icon">
+          <div>
+            <h6 class="f-14 f-w-400 mb-0">Bootstrap 5</h6><span class="f-light">架构</span>
+          </div>
+          <div class="lesson-wrap ms-auto">
+            <div id="lessonChart3"></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

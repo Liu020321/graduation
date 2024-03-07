@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block css %}
+<!-- Plugins css start-->
+<link rel="stylesheet" type="text/css"
+    href="{{ url_for('static', filename=  'assets/css/vendors/button-builder.scss.css')}}">
+<!-- Plugins css Ends-->
+{% endblock %}
+
+{% block content %}
+
+<div class="page-body">
+
+
+    <div class="container-fluid">
+        {% include "layout/breadcrumb.html" %}
+
+        {% include "components/builders/icon-list/button-icon.html" %}
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block scriptcontent %}
+<!-- Plugins JS start-->
+<script src="{{ url_for('static', filename='assets/js/button-builder/colorpicker.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/button-builder/clipboard.min.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/button-builder/generator.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/button-builder/extend-1.0.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/tooltip-init.js')}}"></script>
+<!-- Plugins JS Ends-->
+{% endblock %}

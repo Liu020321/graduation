@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block css %}
+<!-- Plugins css start-->
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename=  'assets/css/vendors/animate.scss.css')}}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/vendors/jkanban.css')}}">
+<!-- Plugins css Ends-->
+{% endblock %}
+
+{% block content %}
+
+<div class="page-body">
+  <div class="container-fluid jkanban-container">
+    {% include "layout/breadcrumb.html" %}
+
+    {% include "applications/kanban/components/kanban.html" %}
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scriptcontent %}
+<!-- Plugins JS start-->
+<script src="{{ url_for('static', filename='assets/js/jkanban/jkanban.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/jkanban/custom.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/typeahead/handlebars.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/typeahead/typeahead.bundle.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/typeahead/typeahead.custom.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/typeahead-search/handlebars.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/js/typeahead-search/typeahead-custom.js')}}"></script>
+<!-- Plugins JS Ends-->
+{% endblock %}
