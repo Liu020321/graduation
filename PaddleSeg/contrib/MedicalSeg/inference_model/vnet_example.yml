@@ -1,0 +1,73 @@
+data_root: data/
+
+batch_size: 6
+iters: 30000
+
+
+train_dataset:
+  type: LungCoronavirus
+#   dataset_root: Task01_BrainTumour/Task01_BrainTumour_phase0
+#   result_dir: data/Task01_BrainTumour/Task01_BrainTumour_phase1
+  dataset_root: competition_phase0
+  result_dir: data/competition/competition_phase1
+  num_classes: 16
+  transforms:
+    - type: RandomResizedCrop3D
+      size: 128
+      scale: [0.8, 1.2]
+    - type: RandomRotation3D
+      degrees: 90
+    - type: RandomFlip3D
+  mode: train
+
+
+val_dataset:
+  type: LungCoronavirus
+  dataset_root: competition_phase0
+  result_dir: data/competition/competition_phase1
+  num_classes: 16
+  transforms: []
+  mode: val
+  dataset_json_path: "data/competition_raw/dataset.json"
+
+
+test_dataset:
+  type: LungCoronavirus
+#   dataset_root: Task01_BrainTumour/Task01_BrainTumour_phase0
+#   dataset_root: competition/competition_phase0
+#   result_dir: data/Task01_BrainTumour/Task01_BrainTumour_phase1
+  dataset_root: competition_phase0
+  result_dir: data/competition/competition_phase1
+  num_classes: 16
+  transforms: []
+  mode: test
+  dataset_json_path: "data/competition_raw/dataset.json"
+
+
+model:
+  type: VNet
+  elu: False
+  in_channels: 1
+  num_classes: 16
+
+optimizer:
+  type: sgd
+  momentum: 0.9
+  weight_decay: 1.0e-4
+
+lr_scheduler:
+  type: PolynomialDecay
+  decay_steps: 15000
+  learning_rate: 0.001
+  end_lr: 0
+  power: 0.9
+
+loss:
+  types:
+    - type: MixedLoss
+      losses:
+        - type: CrossEntropyLoss
+          weight: Null
+        - type: DiceLoss
+      coef: [1, 1]
+  coef: [1]
