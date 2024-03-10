@@ -6,6 +6,14 @@ from cuba.models import *
 main = Blueprint('main', __name__)
 
 
+# 上下文处理器
+@main.context_processor
+def inject_user_info():
+    userHead = session.get('userHead')
+    username = session.get('username')
+    isAdmin = session.get('admin')
+    return dict(username=username, isAdmin=isAdmin, userHead=userHead)
+
 # Create your views here.
 
 # -------------------------General(Dashboards,Widgets & Layout)---------------------------------------
@@ -15,23 +23,15 @@ main = Blueprint('main', __name__)
 @main.route('/default')
 @login_required
 def index():
-    userHead = session.get('userHead')
-    username = session.get('username')
-    isAdmin = session.get('admin')
-
-    print(isAdmin)
     context = {"breadcrumb": {"parent": "面板切换", "child": "主界面", "jsFunction": 'startTime()'}}
-    return render_template("general/dashboard/default/index.html", **context, username=username, isAdmin=isAdmin, userHead=userHead)
+    return render_template("general/dashboard/default/index.html", **context)
 
 
 @main.route('/workTasks')
 @login_required
 def online_course():
-    userHead = session.get('userHead')
-    username = session.get('username')
-    isAdmin = session.get('admin')
     context = {"breadcrumb": {"parent": "面板切换", "child": "工作任务"}}
-    return render_template("general/dashboard/online-course/online-course.html", **context, username=username, isAdmin=isAdmin, userHead=userHead)
+    return render_template("general/dashboard/online-course/online-course.html", **context)
 
 
 # ----------------Widgets

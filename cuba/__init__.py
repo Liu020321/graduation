@@ -7,6 +7,7 @@ from sassutils.wsgi import SassMiddleware
 
 from cuba.views.routes import main as main_blueprint
 from cuba.views.auth_view import auth as auth_blueprint
+from cuba.views.medical_view import medical as medical_blueprint
 
 from .models import User, Todo
 # 数据迁移
@@ -76,6 +77,7 @@ def load_user(user_id):
 # 注册蓝图
 app.register_blueprint(main_blueprint)
 app.register_blueprint(auth_blueprint)
+app.register_blueprint(medical_blueprint)
 
 admin.add_view(ModelView(Todo, db.session))
 admin.add_view(ModelView(User, db.session))

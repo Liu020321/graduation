@@ -1,0 +1,63 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="form theme-form">
+                    <div class="row">
+                        <div class="col-xl-4 col-md-6">
+                            <div class="mb-3">
+                                <label>患者名称</label>
+                                <input class="form-control text-dark" type="text" placeholder="请输入患者姓名">
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-sm-6">
+                            <div class="mb-3">
+                                <label>导入图片类型</label>
+                                <select class="form-select text-dark">
+                                    <option>心脏</option>
+                                    <option>肺部</option>
+                                    <option>肺肿瘤</option>
+                                    <option>椎骨</option>
+                                    <option>脑肿瘤</option>
+                                    <option>多器官</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-6 col-md-12 col-sm-6">
+                            <div class="mb-3">
+                                <label>导入时间</label>
+                                <input class="datepicker-here form-control text-dark" type="text" data-language="en">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label>请输入病人的详细病情描述</label>
+                                <textarea class="form-control text-dark" id="exampleFormControlTextarea4" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label>上传病人的医学图片</label>
+                                <form class="dropzone" id="singleFileUpload" action="/upload.php">
+                                    <div class="dz-message needsclick"><i class="icon-cloud-up"></i>
+                                        <h6>拖动文件或者点击上传.</h6>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="text-end"><a class="btn btn-success me-3" href="/projects">添加</a><a class="btn btn-danger"
+                                                                                                             href="#">清空</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
