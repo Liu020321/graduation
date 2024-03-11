@@ -22,3 +22,14 @@ class Todo(db.Model):
     description = db.Column(db.String(500), unique=True, nullable=False)
     completed = db.Column(db.Boolean, default=False)
     timeStamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+
+
+class MedicalPicture(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(20), nullable=False)
+    imageType = db.Column(db.String(20), nullable=False)
+    age = db.Column(db.Integer, nullable=False)
+    uploadTime = db.Column(db.DateTime, nullable=False)
+    description = db.Column(db.String(255), nullable=False)
+    medicalImage = db.Column(db.String(255),nullable=False)
+

@@ -28,3 +28,30 @@ def import_picture():
 def view_picture():
     context = {"breadcrumb": {"parent": "3D医疗图片解析", "child": "查看医疗图片"}}
     return render_template("medical/viewPicture/viewPicture.html", **context)
+
+@medical.route('/medical/importPicture', methods=['GET', 'POST'])
+@login_required
+def medical_add():
+    # 处理表单数据
+    name = request.form.get('name')
+    imageType = request.form.get('imageType')
+    age = request.form.get('age')
+    uploadTime = request.form.get('uploadTime')
+    description = request.form.get('description')
+
+    # 处理上传的文件
+    files = request.files.getlist('file')
+    for file in files:
+        # 保存文件到服务器
+        file_path = f"uploads/{file.filename}"
+        file.save(file_path)
+
+        # 将文件路径保存到数据库
+        medicalPicture = medicalPicture(name=name, imageType=imageType, age=age,
+                          uploadTime=uploadTime, description=description,
+                          medicalImage=file_path)
+        db.session.add(medicalPicture)
+        db.session.commit()
+
+    return 'Files uploaded successfully!'
+

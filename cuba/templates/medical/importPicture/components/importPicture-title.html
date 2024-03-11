@@ -2,31 +2,37 @@
     <div class="col-sm-12">
         <div class="card">
             <div class="card-body">
-                <div class="form theme-form">
+                <form class="form theme-form">
                     <div class="row">
-                        <div class="col-xl-4 col-md-6">
+                        <div class="col-xl-6 col-md-6">
                             <div class="mb-3">
                                 <label>患者名称</label>
-                                <input class="form-control text-dark" type="text" placeholder="请输入患者姓名">
+                                <input class="form-control text-dark" name="name" type="text" placeholder="">
                             </div>
                         </div>
-                        <div class="col-xl-4 col-sm-6">
+                        <div class="col-xl-6 col-sm-6">
                             <div class="mb-3">
                                 <label>导入图片类型</label>
                                 <select class="form-select text-dark">
-                                    <option>心脏</option>
-                                    <option>肺部</option>
-                                    <option>肺肿瘤</option>
-                                    <option>椎骨</option>
-                                    <option>脑肿瘤</option>
-                                    <option>多器官</option>
+                                    <option name="imageType">心脏</option>
+                                    <option name="imageType">肺部</option>
+                                    <option name="imageType">椎骨</option>
+                                    <option name="imageType">肺肿瘤</option>
+                                    <option name="imageType">脑肿瘤</option>
+                                    <option name="imageType">多器官</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-lg-6 col-md-12 col-sm-6">
+                        <div class="col-xl-6 col-md-6">
+                            <div class="mb-3">
+                                <label>病人年龄</label>
+                                <input class="form-control text-dark" name="age" type="text" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-6">
                             <div class="mb-3">
                                 <label>导入时间</label>
-                                <input class="datepicker-here form-control text-dark" type="text" data-language="en">
+                                <input class="datepicker-here form-control text-dark" name="uploadTime" type="text" data-language="en">
                             </div>
                         </div>
                     </div>
@@ -42,22 +48,101 @@
                         <div class="col">
                             <div class="mb-3">
                                 <label>上传病人的医学图片</label>
-                                <form class="dropzone" id="singleFileUpload" action="/upload.php">
+                                <div class="dropzone" id="medicalPicture">
                                     <div class="dz-message needsclick"><i class="icon-cloud-up"></i>
                                         <h6>拖动文件或者点击上传.</h6>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <div class="text-end"><a class="btn btn-success me-3" href="/projects">添加</a><a class="btn btn-danger"
-                                                                                                             href="#">清空</a></div>
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-success me-3" href="/projects">添加</button>
+                                <button class="btn btn-danger"  id="clearFormBtn">清空</button></div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
+
+
+<script>
+    // Dropzone初始化
+        Dropzone.autoDiscover = false;
+        var myDropzone = new Dropzone("#medicalPicture", {
+            url: "/medical/importPicture", // 上传文件的目标 URL
+            method: "post",
+            dictDefaultMessage: '拖动文件至此或者点击上传', // 设置默认的提示语句
+            paramName: "siteFile", // 传到后台的参数名称
+            autoProcessQueue: false, // 关闭自动上传功能
+            uploadMultiple: false,
+            parallelUploads: 5,
+            maxFiles: 5,
+            maxFilesize: 1,
+            addRemoveLinks: true,
+            dictFallbackMessage: '不好意思，您的浏览器不支持！', // 如果浏览器不支持,默认消息将被替换为这个文本。默认为 “Your browser does not support drag'n'drop file uploads。”。
+            dictInvalidFileType: '该文件不允许上传', // 如果文件类型不匹配时显示的错误消息。
+            dictResponseError: '上传失败，请稍后重试', // 如果服务器响应是无效的时候显示的错误消息。 {{statusCode}} ` 将被  替换为服务器端返回的状态码。
+            init: function () {
+                var submitButton = $("#submit");
+                var medicalPicture = this; // 保存Dropzone实例的引用
+                // 为上传按钮添加点击事件
+                submitButton.on("click", function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (medicalPicture.getAcceptedFiles().length !== 0) {
+                        medicalPicture.processQueue(); // 手动触发上传队列
+                    }
+                });
+                // 在发送文件前将表单数据添加到FormData对象中
+                this.on("sending", function (data, xhr, formData) {
+                    formData.append("name", $("input[name='name']").val());
+                    formData.append("imageType", $("select[name='imageType']").val());
+                    formData.append("age", $("input[name='age']").val());
+                    formData.append("uploadTime", $("input[name='uploadTime']").val());
+                    formData.append("description", $("textarea[name='description']").val());
+                });
+                // 上传成功触发的事件
+                this.on("success", function (file, data) {
+                    // 弹窗提示
+                    swal("上传成功！", file.name, "success");
+                });
+            }
+        });
+
+
+
+
+
+
+
+    // 获取清空按钮
+    var clearFormBtn = document.getElementById('clearFormBtn');
+
+    // 监听按钮点击事件
+    clearFormBtn.addEventListener('click', function() {
+        // 获取表单中所有输入字段
+        var inputFields = document.querySelectorAll('.form-control');
+
+        // 循环遍历所有输入字段，并清空其内容
+        inputFields.forEach(function(inputField) {
+            inputField.value = '';
+        });
+
+        // 清空下拉框的选中项
+        var selectField = document.querySelector('.form-select');
+        selectField.selectedIndex = 0;  // 将选中项设置为第一项
+
+        // 清空textarea的内容
+        var textareaField = document.getElementById('exampleFormControlTextarea4');
+        textareaField.value = '';
+
+        // 清空上传的文件
+        var fileUploadForm = document.getElementById('singleFileUpload');
+        fileUploadForm.reset();
+    });
+</script>
