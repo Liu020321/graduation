@@ -31,6 +31,6 @@ class MedicalPicture(db.Model):
     age = db.Column(db.Integer, nullable=False)
     uploadTime = db.Column(db.DateTime, nullable=False)
     description = db.Column(db.String(255), nullable=False)
-    medicalImage = db.Column(db.String(255),nullable=False)
+    medicalImage = db.Column(db.String(255), nullable=False)
     isDoing = db.Column(db.Boolean, default=False)
 

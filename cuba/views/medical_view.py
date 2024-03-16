@@ -34,8 +34,10 @@ def import_picture():
 @medical.route('/viewPicture')
 @login_required
 def view_picture():
+    medical_pictures = MedicalPicture.query.all()
+    users = User.query.all()
     context = {"breadcrumb": {"parent": "3D医疗图片解析", "child": "查看医疗图片"}}
-    return render_template("medical/viewPicture/viewPicture.html", **context)
+    return render_template("medical/viewPicture/viewPicture.html", **context, medical_pictures=medical_pictures, users=users )
 
 
 @medical.route('/medical', methods=['POST'])
