@@ -32,4 +32,5 @@ class MedicalPicture(db.Model):
     uploadTime = db.Column(db.DateTime, nullable=False)
     description = db.Column(db.String(255), nullable=False)
     medicalImage = db.Column(db.String(255),nullable=False)
+    isDoing = db.Column(db.Boolean, default=False)
 

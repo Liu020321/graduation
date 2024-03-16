@@ -14,6 +14,8 @@ from .models import User, Todo
 from .extends import *
 
 app = Flask(__name__)
+# 设置json中文显示
+app.json.ensure_ascii = False
 
 assets = Environment(app)
 
