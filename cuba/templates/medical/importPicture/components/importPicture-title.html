@@ -7,7 +7,11 @@
                         <div class="col-xl-6 col-md-6">
                             <div class="mb-3">
                                 <label>患者名称</label>
-                                <input class="form-control text-dark" name="name" type="text" placeholder="">
+                               <select class="form-select text-dark" name="name">
+                                   {% for user in users %}
+                                    <option value="{{ user.name }}">{{ user.name }}</option>
+                                   {% endfor %}
+                                </select>
                             </div>
                         </div>
                         <div class="col-xl-6 col-sm-6">
@@ -26,7 +30,11 @@
                         <div class="col-xl-6 col-md-6">
                             <div class="mb-3">
                                 <label>病人年龄</label>
-                                <input class="form-control text-dark" name="age" type="text" placeholder="">
+                                <select class="form-select text-dark" name="age">
+                                   {% for age in ages %}
+                                    <option value="{{ age }}">{{ age }}</option>
+                                   {% endfor %}
+                                </select>
                             </div>
                         </div>
                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-6">

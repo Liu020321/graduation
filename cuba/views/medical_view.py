@@ -28,16 +28,18 @@ def inject_user_info():
 @medical.route('/importPicture')
 @login_required
 def import_picture():
+    users = User.query.all()  # 获取所有用户
+    ages = [user.age for user in users]  # 获取所有用户的年龄
     context = {"breadcrumb": {"parent": "3D医疗图片解析", "child": "解析医疗图片", "jsFunction": 'startTime()'}}
-    return render_template("medical/importPicture/importPicture.html", **context)
+    return render_template("medical/importPicture/importPicture.html", **context, users=users, ages=ages)
+
 
 @medical.route('/viewPicture')
 @login_required
 def view_picture():
-    medical_pictures = MedicalPicture.query.all()
-    users = User.query.all()
+    medical_pictures = MedicalPicture.query.join(User, (MedicalPicture.name == User.name) & (MedicalPicture.age == User.age)).all()
     context = {"breadcrumb": {"parent": "3D医疗图片解析", "child": "查看医疗图片"}}
-    return render_template("medical/viewPicture/viewPicture.html", **context, medical_pictures=medical_pictures, users=users )
+    return render_template("medical/viewPicture/viewPicture.html", **context, medical_pictures=medical_pictures)
 
 
 @medical.route('/medical', methods=['POST'])

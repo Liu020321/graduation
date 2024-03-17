@@ -1,64 +1,54 @@
 <div class="tab-pane fade show active" id="top-home" role="tabpanel" aria-labelledby="top-home-tab">
-  <div class="row">
-    <div class="col-xxl-4 col-md-6">
-      <div class="project-box"><span class="badge badge-primary">处理中</span>
-        <h6>刘海涛_21_2024-03-16_16_44</h6>
+    <div class="row">
+        {% for medical_picture in medical_pictures %}
+            <div class="col-xxl-4 col-md-6">
+            {% if medical_picture.isDoing %}
+                <div class="project-box"><span class="badge badge-primary">处理中</span>
+            {% else %}
+                <div class="project-box"><span class="badge badge-success">处理完成</span>
+            {% endif %}
+        <h6>{{ medical_picture.name_f.name }}_{{ medical_picture.imageType }}</h6>
         <div class="media"><img class="img-20 me-1 rounded-circle"
-            src="{{ url_for('static', filename=userHead)}}" alt="" data-original-title="" title="">
-          <div class="media-body">
-            <p>{{ username }}</p>
-          </div>
+                                src="{{ url_for('static', filename=medical_picture.name_f.userHead)}}" alt="" data-original-title="" title="">
+            <div class="media-body">
+                <p>{{ medical_picture.name_f.username }}</p>
+            </div>
         </div>
-        <p>这里是一段巨大的病情描述，用来凑字数，来进行展示，我不知道怎么来设置多少字比较</p>
+        <p>{{ medical_picture.description }}</p>
         <div class="row details">
-          <div class="col-6"><span>姓名</span></div>
-          <div class="col-6 text-primary">刘海涛</div>
-          <div class="col-6"> <span>年龄</span></div>
-          <div class="col-6 text-primary">22</div>
-          <div class="col-6"> <span>图片类型</span></div>
-          <div class="col-6 text-primary">心脏</div>
+            <div class="col-6"><span>姓名</span></div>
+            <div class="col-6 text-primary">{{ medical_picture.name_f.name }}</div>
+            <div class="col-6"> <span>年龄</span></div>
+            <div class="col-6 text-primary">{{ medical_picture.name_f.age }}</div>
+            <div class="col-6"> <span>图片类型</span></div>
+            <div class="col-6 text-primary">{{ medical_picture.imageType }}</div>
+            <div class="col-6"> <span>上传时间</span></div>
+            <div class="col-6 text-primary">{{ medical_picture.uploadTime }}</div>
         </div>
         <div class="project-status mt-4">
-          <div class="media mb-0">
-            <p>70% </p>
-            <div class="media-body text-end"><span>Done</span></div>
-          </div>
-          <div class="progress" style="height: 5px">
-            <div class="progress-bar-animated bg-primary progress-bar-striped" role="progressbar" style="width: 70%"
-              aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-          </div>
+            {% if medical_picture.isDoing %}
+                <div class="media mb-0">
+                    <p>70% </p>
+                    <div class="media-body text-end"><span>Done</span></div>
+                </div>
+                <div class="progress" style="height: 5px">
+                    <div class="progress-bar-animated bg-primary progress-bar-striped" role="progressbar" style="width: 70%"
+                         aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            {% else %}
+                <div class="media mb-0">
+                    <p>100% </p>
+                    <div class="media-body text-end"><span>Done</span></div>
+                </div>
+                <div class="progress" style="height: 5px">
+                    <div class="progress-bar-animated bg-success" role="progressbar" style="width: 100%" aria-valuenow="10"
+                         aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            {% endif %}
         </div>
-      </div>
+        </div>
+        </div>
+        {% endfor %}
+        </div>
     </div>
-    <div class="col-xxl-4 col-md-6">
-      <div class="project-box"><span class="badge badge-success">处理完成</span>
-        <h6>刘海涛_21_2024-03-16_16_44</h6>
-        <div class="media"><img class="img-20 me-1 rounded-circle"
-            src="{{ url_for('static', filename=userHead )}}" alt="" data-original-title="" title="">
-          <div class="media-body">
-            <p>{{ username }}</p>
-          </div>
-        </div>
-        <p>这里是一段巨大的病情描述，用来凑字数，来进行展示，我不知道怎么来设置多少字比较</p>
-        <div class="row details">
-          <div class="col-6"><span>姓名</span></div>
-          <div class="col-6 text-success">刘海涛</div>
-          <div class="col-6"> <span>年龄</span></div>
-          <div class="col-6 text-success">22</div>
-          <div class="col-6"> <span>图片类型</span></div>
-          <div class="col-6 text-success">多器官</div>
-        </div>
-        <div class="project-status mt-4">
-          <div class="media mb-0">
-            <p>100% </p>
-            <div class="media-body text-end"><span>Done</span></div>
-          </div>
-          <div class="progress" style="height: 5px">
-            <div class="progress-bar-animated bg-success" role="progressbar" style="width: 100%" aria-valuenow="10"
-              aria-valuemin="0" aria-valuemax="100"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
