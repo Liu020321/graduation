@@ -111,9 +111,9 @@
             });
             // 在发送文件前将表单数据添加到FormData对象中
             this.on("sending", function (data, xhr, formData) {
-                formData.append("name", $("input[name='name']").val());
+                formData.append("name", $("select[name='name']").val());
                 formData.append("imageType", $("select[name='imageType']").val());
-                formData.append("age", $("input[name='age']").val());
+                formData.append("age", $("select[name='age']").val());
                 formData.append("uploadTime", $("input[name='uploadTime']").val());
                 formData.append("description", $("textarea[name='description']").val());
             });

@@ -7,19 +7,19 @@
             {% else %}
                 <div class="project-box"><span class="badge badge-success">处理完成</span>
             {% endif %}
-        <h6>{{ medical_picture.name_f.name }}_{{ medical_picture.imageType }}</h6>
+        <h6>{{ medical_picture.user.name }}_{{ medical_picture.imageType }}</h6>
         <div class="media"><img class="img-20 me-1 rounded-circle"
-                                src="{{ url_for('static', filename=medical_picture.name_f.userHead)}}" alt="" data-original-title="" title="">
+                                src="{{ url_for('static', filename=medical_picture.user.userHead)}}" alt="" data-original-title="" title="">
             <div class="media-body">
-                <p>{{ medical_picture.name_f.username }}</p>
+                <p>{{ medical_picture.user.username }}</p>
             </div>
         </div>
         <p>{{ medical_picture.description }}</p>
         <div class="row details">
             <div class="col-6"><span>姓名</span></div>
-            <div class="col-6 text-primary">{{ medical_picture.name_f.name }}</div>
+            <div class="col-6 text-primary">{{ medical_picture.user.name }}</div>
             <div class="col-6"> <span>年龄</span></div>
-            <div class="col-6 text-primary">{{ medical_picture.name_f.age }}</div>
+            <div class="col-6 text-primary">{{ medical_picture.user.age }}</div>
             <div class="col-6"> <span>图片类型</span></div>
             <div class="col-6 text-primary">{{ medical_picture.imageType }}</div>
             <div class="col-6"> <span>上传时间</span></div>

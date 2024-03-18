@@ -1,9 +1,11 @@
 import subprocess
 from flask import current_app, jsonify
 import os
+from cuba.extends import db
+from cuba.models import *
 
 
-def nnunet(target_submit_folder, target_output_folder):
+def nnunet(target_submit_folder, target_output_folder, user_id, medical_picture_id):
     # 获取目标目录的路径
     target_dir = os.path.abspath(os.path.join(current_app.root_path, "..", "PaddleSeg", "contrib", "MedicalSeg"))
 
@@ -33,6 +35,14 @@ def nnunet(target_submit_folder, target_output_folder):
     if process.returncode == 0:
         print("命令运行成功!")
         print("Output:", output.decode())  # 打印命令的输出信息
+        # 修改数据库中对应的 isDoing 字段为 0
+        medical_picture = MedicalPicture.query.filter((MedicalPicture.id == medical_picture_id) & (MedicalPicture.user_id == user_id)).first()
+        if medical_picture:
+            medical_picture.isDoing = 0
+            db.session.commit()
+            print("数据库中 isDoing 字段修改成功！")
+        else:
+            print("找不到对应的数据库记录！")
     else:
         print("命令运行失败!")
         print("Error:", error.decode())

@@ -37,7 +37,7 @@ def import_picture():
 @medical.route('/viewPicture')
 @login_required
 def view_picture():
-    medical_pictures = MedicalPicture.query.join(User, (MedicalPicture.name == User.name) & (MedicalPicture.age == User.age)).all()
+    medical_pictures = MedicalPicture.query.join(User, (MedicalPicture.user_id == User.id)).all()
     context = {"breadcrumb": {"parent": "3D医疗图片解析", "child": "查看医疗图片"}}
     return render_template("medical/viewPicture/viewPicture.html", **context, medical_pictures=medical_pictures)
 
@@ -58,12 +58,20 @@ def medical_add():
             # 格式化文件夹名
             folder_name = f"{name}_{age}_{formatted_upload_time}"
 
+            # 查询用户的唯一ID
+            user = User.query.filter_by(name=name, age=age).first()
+            if user:
+                user_id = user.id
+            else:
+                return jsonify({'error': '找不到对应的用户!'}), 400
+
             # 处理文件上传
             if 'file' in request.files:
                 files = request.files.getlist('file')  # 获取所有上传的文件列表
                 if files:
                     # 构建目标文件夹路径
                     target_folder = os.path.join(current_app.root_path, 'static', 'medical', folder_name, 'submit')
+                    save_folder = os.path.join('medical', folder_name, 'output')
                     # 确保目标文件夹存在
                     os.makedirs(target_folder, exist_ok=True)
 
@@ -76,32 +84,36 @@ def medical_add():
                             existing_files = os.listdir(target_folder)
                             file_count = len(existing_files)
                             new_filename = f"{folder_name}_{str(file_count).zfill(4)}{file_extension}"
+                            save_filename = f"{folder_name}{file_extension}"
 
                             # 构建目标文件的路径
                             target_file_path = os.path.join(target_folder, new_filename)
+                            save_file_path = os.path.join(save_folder, save_filename)
 
                             # 保存文件到目标路径
                             file.save(target_file_path)
 
                             # 将文件路径以及其他信息存入数据库
                             medical_picture = MedicalPicture(
-                                name=name,
                                 imageType=image_type,
-                                age=age,
+                                user_id=user_id,
                                 uploadTime=upload_time,
                                 description=description,
-                                medicalImage=target_file_path,  # 保存目标文件的路径
-                                isDoing=0
+                                medicalImage=save_file_path,  # 保存目标文件的路径
+                                isDoing=1
                             )
                             db.session.add(medical_picture)
                             db.session.commit()
+
+                            # 获取刚插入到数据库的MedicalPicture的id
+                            medical_picture_id = medical_picture.id
 
                             # 在上传文件处理完成后，启动新进程执行 nnunet() 函数
                             target_submit_folder = os.path.join(current_app.root_path, 'static', 'medical', folder_name,
                                                                 'submit')
                             target_output_folder = os.path.join(current_app.root_path, 'static', 'medical', folder_name,
                                                                 'output')
-                            nnunet_process = Process(target=nnunet, args=(target_submit_folder, target_output_folder))
+                            nnunet_process = Process(target=nnunet, args=(target_submit_folder, target_output_folder, user_id, medical_picture_id))
                             nnunet_process.start()
 
                             # 向前端发送成功响应
@@ -109,6 +121,7 @@ def medical_add():
 
             return jsonify({'error': '请求中缺少文件!'}), 400
         except Exception as e:
+            print('error:', str(e))
             return jsonify({'error': str(e)}), 500  # 返回更具体的错误信息
     return jsonify({'error': '请求失败!'}), 400
 
