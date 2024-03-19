@@ -1,0 +1,33 @@
+<div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completed-tab">
+ <div class="mb-3" style="height: 20px;"></div> <!-- 添加一个空白的div -->
+    <div class="row">
+        {% for completed in complates %}
+            <div class="col-xxl-4 col-md-6">
+                {% if not completed.isDoing %}
+                    <div id="project-box" class="project-box"><span id="sp-{{ completed.id }}" class="badge badge-success">处理完成</span>
+                        <h6>{{ completed.user.name }}_{{ completed.imageType }}</h6>
+                        <div class="media"><img class="img-20 me-1 rounded-circle"
+                                                src="{{ url_for('static', filename=completed.user.userHead)}}" alt="" data-original-title="" title="">
+                            <div class="media-body">
+                                <p>{{ completed.user.username }}</p>
+                            </div>
+                        </div>
+                        <p>{{ completed.description }}</p>
+                        <div class="row details">
+                            <div class="col-6"><span>姓名</span></div>
+                            <div class="col-6 text-primary">{{ completed.user.name }}</div>
+                            <div class="col-6"> <span>年龄</span></div>
+                            <div class="col-6 text-primary">{{ completed.user.age }}</div>
+                            <div class="col-6"> <span>图片类型</span></div>
+                            <div class="col-6 text-primary">{{ completed.imageType }}</div>
+                            <div class="col-6"> <span>上传时间</span></div>
+                            <div class="col-6 text-primary">{{ completed.uploadTime }}</div>
+                        </div>
+                        <div class="project-status mt-4">
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</div>

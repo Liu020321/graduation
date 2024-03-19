@@ -1,11 +1,11 @@
-<div class="tab-pane fade show active" id="top-home" role="tabpanel" aria-labelledby="top-home-tab">
+<div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
     <div class="row">
         {% for medical_picture in medical_pictures %}
             <div class="col-xxl-4 col-md-6">
             {% if medical_picture.isDoing %}
-                <div class="project-box"><span class="badge badge-primary">处理中</span>
+                <div id="project-box" class="project-box"><span id="sp-{{ medical_picture.id }}" class="badge badge-primary">处理中</span>
             {% else %}
-                <div class="project-box"><span class="badge badge-success">处理完成</span>
+                <div id="project-box" class="project-box"><span id="sp-{{ medical_picture.id }}" class="badge badge-success">处理完成</span>
             {% endif %}
         <h6>{{ medical_picture.user.name }}_{{ medical_picture.imageType }}</h6>
         <div class="media"><img class="img-20 me-1 rounded-circle"
@@ -28,22 +28,13 @@
         <div class="project-status mt-4">
             {% if medical_picture.isDoing %}
                 <div class="media mb-0">
-                    <p>70% </p>
-                    <div class="media-body text-end"><span>Done</span></div>
+                    <div class="media-body text-end"><span id="progress-text-{{ medical_picture.id }}">处理中</span></div>
                 </div>
                 <div class="progress" style="height: 5px">
-                    <div class="progress-bar-animated bg-primary progress-bar-striped" role="progressbar" style="width: 70%"
+                    <div id="progress-bar-{{ medical_picture.id }}" class="progress-bar-animated bg-primary progress-bar-striped" role="progressbar" style="width: 0%"
                          aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             {% else %}
-                <div class="media mb-0">
-                    <p>100% </p>
-                    <div class="media-body text-end"><span>Done</span></div>
-                </div>
-                <div class="progress" style="height: 5px">
-                    <div class="progress-bar-animated bg-success" role="progressbar" style="width: 100%" aria-valuenow="10"
-                         aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
             {% endif %}
         </div>
         </div>
@@ -52,3 +43,49 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        // 定时向后端发送请求，获取医疗图片数据
+        setInterval(function() {
+            $.ajax({
+                url: '/check_isDoing', // 后端路由
+                method: 'GET',
+                success: function(response) {
+                    // 处理返回的数据
+                    var medicalPictures = response.medicalPictures;
+                    console.log(medicalPictures)
+                    // 更新页面上的医疗图片状态
+                    updateMedicalPicturesStatus(medicalPictures);
+                },
+                error: function(xhr, status, error) {
+                    console.error('获取医疗信息失败:', error);
+                }
+            });
+        }, 2000); // 每2秒钟发送一次请求
+
+        // 更新页面上的医疗图片状态
+        function updateMedicalPicturesStatus(medicalPictures) {
+            for (var i = 0; i < medicalPictures.length; i++) {
+                var medicalPicture = medicalPictures[i];
+                var projectId = medicalPicture.id;
+                var isDoing = medicalPicture.isDoing;
+                console.log(isDoing)
+                // 更新页面中对应医疗图片的状态
+                var progressText = $('#progress-text-' + projectId);
+                var progressBar = $('#progress-bar-' + projectId);
+                var statusSpan = $('#sp-' + projectId);
+                if (isDoing) {
+                    statusSpan.removeClass('badge-success').addClass('badge-primary').text('处理中');
+                    progressText.text('处理中'); // 显示处理中文字
+                    progressBar.parent().show(); // 显示进度条容器
+                } else {
+                    statusSpan.removeClass('badge-primary').addClass('badge-success').text('处理完成');
+                    progressText.text(''); // 隐藏处理中文字
+                    progressBar.parent().hide(); // 隐藏进度条容器
+                }
+            }
+        }
+
+    });
+</script>

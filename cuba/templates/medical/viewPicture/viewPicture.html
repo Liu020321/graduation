@@ -4,41 +4,104 @@
 
 
 {% block css %}
-<!-- Plugins css start-->
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename=  'assets/css/vendors/animate.scss.css')}}">
-<!-- Plugins css Ends-->
+    <!-- Plugins css start-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename=  'assets/css/vendors/animate.scss.css')}}">
+    <script src="{{ url_for('static', filename='assets/js/jquery-3.5.1.min.js')}}"></script>
+    <!-- Plugins css Ends-->
 {% endblock %}
 
 {% block content %}
 
-<div class="page-body">
-      <div class="container-fluid">
+    <div class="page-body">
+        <div class="container-fluid">
             {% include "layout/breadcrumb.html" %}
             <div class="row project-cards">
-                  {% include "medical/viewPicture/components/projects-list-1.html" %}
-                  <div class="col-sm-12">
-                        <div class="card">
-                              <div class="card-body">
-                                    <div class="tab-content" id="top-tabContent">
-                                          {% include
-                                          "medical/viewPicture/components/projects-list-2.html" %}
-                                    </div>
-                                    {% include "medical/viewPicture/components/projects-list-3.html" %}
+                {% include "medical/viewPicture/components/projects-list-1.html" %}
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="tab-content" id="myTabContent">
+                                {% include "medical/viewPicture/components/projects-list-2.html" %}
+                                {% include "medical/viewPicture/components/projects-list-3.html" %}
+                                {% include "medical/viewPicture/components/projects-list-4.html" %}
+                            </div>
+                             {% include "medical/viewPicture/components/projects-list-5.html" %}
                         </div>
-                  </div>
+                    </div>
+                </div>
+
             </div>
-      </div>
-</div>
+        </div>
+    </div>
 
 {% endblock %}
 
 {% block scriptcontent %}
-<!-- Plugins JS start-->
-<script src="{{ url_for('static', filename='assets/js/typeahead/handlebars.js')}}"></script>
-<script src="{{ url_for('static', filename='assets/js/typeahead/typeahead.bundle.js')}}"></script>
-<script src="{{ url_for('static', filename='assets/js/typeahead/typeahead.custom.js')}}"></script>
-<script src="{{ url_for('static', filename='assets/js/typeahead-search/handlebars.js')}}"></script>
-<script src="{{ url_for('static', filename='assets/js/typeahead-search/typeahead-custom.js')}}"></script>
-<script src="{{ url_for('static', filename='assets/js/tooltip-init.js')}}"></script>
-<!-- Plugins JS Ends-->
+    <script>
+        // JavaScript 代码
+        $(document).ready(function() {
+            // 默认显示“所有图片”标签页内容，隐藏其他内容
+            $('#all').show();
+            $('#processing').hide();
+            $('#completed').hide();
+
+            // 当页面加载时触发“所有图片”标签页的点击事件
+            $('#all-tab').click();
+
+            // 监听标签页切换事件，显示对应的内容
+            $('#myTab a').on('click', function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
+
+            $('#myTab a').on('shown.bs.tab', function (e) {
+                var target = $(e.target).attr('href'); // 获取当前激活的选项卡面板的id
+                if (target === '#all') {
+                    // 如果是显示所有图片的标签页，则显示所有图片内容，隐藏其他内容
+                    $('#all').show();
+                    $('#processing').hide();
+                    $('#completed').hide();
+                } else if (target === '#processing') {
+                    // 如果是显示处理中的标签页，则显示处理中内容，隐藏其他内容
+                    $('#all').hide();
+                    $('#processing').show();
+                    $('#completed').hide();
+                } else if (target === '#completed') {
+                    // 如果是显示处理完成的标签页，则显示处理完成内容，隐藏其他内容
+                    $('#all').hide();
+                    $('#processing').hide();
+                    $('#completed').show();
+                }
+            });
+
+            // 获取所有处理中的项目并更新进度条
+            $('[id^=progress-bar-]').each(function() {
+                var progressBar = $(this);
+                var totalWidth = 100; // 进度条的总宽度
+                var currentWidth = parseFloat(progressBar.attr('aria-valuenow'));
+                console.log("成功加载进度条！")
+
+                var intervalId = setInterval(function() {
+                    currentWidth++;
+                    if (currentWidth >= totalWidth) {
+                        currentWidth = 0; // 重置进度
+                    }
+                    progressBar.attr('aria-valuenow', currentWidth);
+                    progressBar.css('width', currentWidth + '%');
+                }, 100); // 0.1秒变化一次
+            });
+
+
+
+        });
+
+    </script>
+    <!-- Plugins JS start-->
+    <script src="{{ url_for('static', filename='assets/js/typeahead/handlebars.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/typeahead/typeahead.bundle.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/typeahead/typeahead.custom.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/typeahead-search/handlebars.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/typeahead-search/typeahead-custom.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/tooltip-init.js')}}"></script>
+    <!-- Plugins JS Ends-->
 {% endblock %}

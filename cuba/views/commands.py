@@ -1,4 +1,6 @@
 import subprocess
+import sys
+
 from flask import current_app, jsonify
 import os
 from cuba.extends import db

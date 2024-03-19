@@ -7,7 +7,7 @@ from sassutils.wsgi import SassMiddleware
 
 from cuba.views.routes import main as main_blueprint
 from cuba.views.auth_view import auth as auth_blueprint
-from cuba.views.medical_view import medical as medical_blueprint
+
 
 from .models import User, Todo
 # 数据迁移
@@ -35,6 +35,7 @@ else:
     app.config['SECRET_KEY'] = 'Lht20020321'
 
 init_extends(app=app)
+socketio = init_socketio(app=app)
 
 app.wsgi_app = SassMiddleware(
     app.wsgi_app,
@@ -76,6 +77,7 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+from cuba.views.medical_view import medical as medical_blueprint
 # 注册蓝图
 app.register_blueprint(main_blueprint)
 app.register_blueprint(auth_blueprint)

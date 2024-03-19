@@ -6,10 +6,10 @@ import datetime
 from werkzeug.utils import secure_filename
 from cuba.extends import db
 from cuba.models import *
-from cuba.views.commands import *
 
 from multiprocessing import Process
 
+from cuba.views.commands import nnunet
 
 medical = Blueprint("medical", __name__)
 
@@ -34,12 +34,36 @@ def import_picture():
     return render_template("medical/importPicture/importPicture.html", **context, users=users, ages=ages)
 
 
-@medical.route('/viewPicture')
+@medical.route('/viewPicture/')
 @login_required
 def view_picture():
-    medical_pictures = MedicalPicture.query.join(User, (MedicalPicture.user_id == User.id)).all()
+    # 页码：默认显示第一页
+    page = int(request.args.get('page', 1))
+    # per_page: 每页显示数据量
+    per_page = int(request.args.get('per_page', 6))
+
+    medical_pictures = MedicalPicture.query.join(User, (MedicalPicture.user_id == User.id)).paginate(page=page, per_page=per_page, error_out=False)
+    processes = MedicalPicture.query.filter(MedicalPicture.isDoing).paginate(page=page, per_page=per_page, error_out=False)
+    completes = MedicalPicture.query.filter(~MedicalPicture.isDoing).paginate(page=page, per_page=per_page, error_out=False)
     context = {"breadcrumb": {"parent": "3D医疗图片解析", "child": "查看医疗图片"}}
-    return render_template("medical/viewPicture/viewPicture.html", **context, medical_pictures=medical_pictures)
+    return render_template("medical/viewPicture/viewPicture.html", **context, medical_pictures=medical_pictures, processes=processes, complates=completes)
+
+
+@medical.route('/check_isDoing')
+@login_required
+def check_isDoing():
+    # 查询医疗图片数据
+    medical_pictures = MedicalPicture.query.join(User, (MedicalPicture.user_id == User.id)).all()
+    # 构造返回给前端的数据
+    medical_pictures_data = []
+    for medical_picture in medical_pictures:
+        medical_pictures_data.append({
+            'id': medical_picture.id,
+            'isDoing': medical_picture.isDoing
+        })
+    # 返回 JSON 格式的数据
+    return jsonify({'medicalPictures': medical_pictures_data})
+
 
 
 @medical.route('/medical', methods=['POST'])
