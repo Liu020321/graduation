@@ -32,10 +32,10 @@ import paddle
 from paddle.inference import create_predictor, PrecisionType
 from paddle.inference import Config as PredictConfig
 
-from PaddleSeg.contrib.MedicalSeg.nnunet.utils.static_predictor import StaticPredictor
-from PaddleSeg.contrib.MedicalSeg.nnunet.transforms import default_2D_augmentation_params, default_3D_augmentation_params
-from PaddleSeg.contrib.MedicalSeg.nnunet.predict import predict_from_folder
-from PaddleSeg.contrib.MedicalSeg.tools.preprocess_utils import GenericPreprocessor, PreprocessorFor2D
+from nnunet.utils.static_predictor import StaticPredictor
+from nnunet.transforms import default_2D_augmentation_params, default_3D_augmentation_params
+from nnunet.predict import predict_from_folder
+from tools.preprocess_utils import GenericPreprocessor, PreprocessorFor2D
 
 
 def parse_args():
