@@ -65,6 +65,11 @@ def check_isDoing():
     return jsonify({'medicalPictures': medical_pictures_data})
 
 
+@medical.route('/Pictures')
+@login_required
+def Pictures():
+    return render_template("medical/Pictures/Pictures.html")
+
 
 @medical.route('/medical', methods=['POST'])
 @login_required

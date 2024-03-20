@@ -5,13 +5,14 @@
             <div class="col-xxl-4 col-md-6">
                 {% if not completed.isDoing %}
                     <div id="project-box" class="project-box"><span id="sp-{{ completed.id }}" class="badge badge-success">处理完成</span>
-                        <h6>{{ completed.user.name }}_{{ completed.imageType }}</h6>
+                        <a href="#" style="color: inherit;"><h6>{{ completed.user.name }}_{{ completed.imageType }}</h6></a>
                         <div class="media"><img class="img-20 me-1 rounded-circle"
                                                 src="{{ url_for('static', filename=completed.user.userHead)}}" alt="" data-original-title="" title="">
                             <div class="media-body">
                                 <p>{{ completed.user.username }}</p>
                             </div>
                         </div>
+                         <a href="#" style="color: inherit;">
                         <p>{{ completed.description }}</p>
                         <div class="row details">
                             <div class="col-6"><span>姓名</span></div>
@@ -23,6 +24,7 @@
                             <div class="col-6"> <span>上传时间</span></div>
                             <div class="col-6 text-primary">{{ completed.uploadTime }}</div>
                         </div>
+                        </a>
                         <div class="project-status mt-4">
                         </div>
                     </div>

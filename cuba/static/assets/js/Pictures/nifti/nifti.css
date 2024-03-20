@@ -1,0 +1,135 @@
+/* 样式调整为您之前提供的样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.imDiv{
+    width: 1175px;
+    height: 610px;
+    margin-left: 3px; /* 添加左边距为7px */
+    margin-top: 0; /* 添加左边距为7px */
+    margin-bottom: 0; /* 添加左边距为7px */
+    display: flex; /* 使用弹性盒子模型 */
+}
+.imageDiv {
+    width: 1175px;
+    height: 610px;
+    border-radius: 15px; /* 调整圆角的弧度 */
+    /* 添加阴影 */
+    box-shadow: 0 0 15px rgba(51, 51, 51, 1); /* 可调整阴影的偏移、模糊度和颜色 */
+    border: 3px solid mediumpurple; /* 设置边框宽度为2px，样式为实线，颜色为灰色 */
+    background-color: black;
+    margin-left: 15px; /* 添加左边距为7px */
+    margin-top: 0; /* 添加左边距为7px */
+    margin-bottom: 0; /* 添加左边距为7px */
+    display: flex; /* 使用弹性盒子模型 */
+}
+.imageDiv1 {
+    width: 570px;
+    height: 610px;
+    border-radius: 15px; /* 调整圆角的弧度 */
+    /* 添加阴影 */
+    box-shadow: 0 0 15px rgba(51, 51, 51, 1); /* 可调整阴影的偏移、模糊度和颜色 */
+    border: 3px solid mediumpurple; /* 设置边框宽度为2px，样式为实线，颜色为灰色 */
+    background-color: black;
+    margin-left: 15px; /* 添加左边距为7px */
+    margin-right: 5px; /* 添加左边距为7px */
+    margin-top: 0; /* 添加左边距为7px */
+    margin-bottom: 0; /* 添加左边距为7px */
+    display: flex; /* 使用弹性盒子模型 */
+    justify-content: center;
+    align-items: center;
+}
+.imageDiv2 {
+    width: 570px;
+    height: 610px;
+    border-radius: 15px; /* 调整圆角的弧度 */
+    /* 添加阴影 */
+    box-shadow: 0 0 15px rgba(51, 51, 51, 1); /* 可调整阴影的偏移、模糊度和颜色 */
+    border: 3px solid mediumpurple; /* 设置边框宽度为2px，样式为实线，颜色为灰色 */
+    background-color: black;
+    margin-left: 5px; /* 添加左边距为7px */
+    margin-right: 15px; /* 添加左边距为7px */
+    margin-top: 0; /* 添加左边距为7px */
+    margin-bottom: 0; /* 添加左边距为7px */
+    display: flex; /* 设置为内联块级元素 */
+
+}
+
+.cornerstone-element {
+    width: 1150px;
+    height: 600px;
+    margin: 3px auto 3px auto;
+    display: inline-block; /* 设置为内联块级元素 */
+}
+.cornerstone-element1 {
+    width: 560px;
+    height: 600px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 3px; /* 添加左边距为7px */
+    display: inline-block; /* 设置为内联块级元素 */
+
+}
+.cornerstone-element2 {
+    width: 560px;
+    height: 600px;
+    margin-left: 5px;
+    margin-top: 3px; /* 添加左边距为7px */
+    display: inline-block; /* 设置为内联块级元素 */
+
+}
+
+/* 美化下拉内容 */
+.tool-item {
+    display: flex;
+    align-items: center;
+}
+
+.tool-item i {
+    margin-right: 10px;
+}
+
+/* 显示图标区域样式 */
+
+/* 调整显示图标按钮样式 */
+.icon-button {
+    width: 70px; /* 窄且长的按钮 */
+    height: 40px;
+    padding: 0;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+}
+
+/* 调整下拉选择按钮样式 */
+.dropdown-button {
+    width: 5px; /* 调整选择按钮的宽度 */
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 0 5px 5px 0;
+}
+
+/* 显示区域样式 */
+#selected-tool {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* 调整选择列表样式 */
+.dropdown-menu {
+    min-width: 80px; /* 调整选择列表的宽度 */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: none;
+    position: absolute; /* 绝对定位，方便调整显示位置 */
+    top: 50px; /* 调整下拉选择框的垂直位置 */
+    right: 0; /* 调整下拉选择框的水平位置 */
+}
+
+/* 显示选择列表 */
+.show .dropdown-menu {
+    display: block;
+}
