@@ -4,25 +4,51 @@
 
 
 {% block css %}
-<!-- Plugins css start-->
-<!-- Plugins css Ends-->
+    <!-- Plugins css start-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename=  'assets/css/nifti.css')}}">
+    <script src="{{ url_for('static', filename='assets/js/jquery-3.5.1.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/Pictures/html2canvas.min.js')}}"></script>
+    <!-- Plugins css Ends-->
 {% endblock %}
 
 {% block content %}
 
-<div class="page-body">
-      <div class="container-fluid">
-          <div class="row project-cards">
-
-            {% include "medical/Pictures/components/nifti.html" %}
-          </div>
-      </div>
-</div>
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="row project-cards">
+                {% include 'medical/Pictures/components/tools.html' %}
+                {% include "medical/Pictures/components/nifti.html" %}
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 
 {% block scriptcontent %}
-<!-- Plugins JS start-->
-<script src="{{ url_for('static', filename='assets/js/tooltip-init.js')}}"></script>
-<!-- Plugins JS Ends-->
+    <!-- Plugins JS start-->
+    <script src="{{ url_for('static', filename='assets/js/tooltip-init.js')}}"></script>
+    <!-- Plugins JS Ends-->
+
+    <!-- 时间js 开始-->
+    <script src="{{ url_for('static', filename='assets/js/datepicker/date-time-picker/moment.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/datepicker/date-time-picker/datetimepicker.custom.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/tooltip-init.js')}}"></script>
+    <!-- 时间js 结束-->
+
+    <!-- 医疗图片js 开始-->
+    <script src="{{ url_for('static', filename='assets/js/Pictures/cornerstone/cornerstone.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/Pictures/cornerstone/cornerstoneMath.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/Pictures/cornerstone/hammer.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/Pictures/cornerstone/cornerstoneTools.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/Pictures/cornerstone/cornerstoneFileImageLoader.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/Pictures/cornerstone/cornerstoneNIFTIImageLoader.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/Pictures/cornerstone/image-statistics.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/Pictures/cornerstone/rotated-elliptical-roi-tool.umd.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/Pictures/cornerstone/dicomParser.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/Pictures/cornerstone/cornerstoneWADOImageLoader.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/Pictures/cornerstone/cornerstoneWebImageLoader.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/Pictures/nifti/nifti.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/js/Pictures/nifti/tools.js')}}"></script>
+    <!-- 医疗图片js 结束-->
 {% endblock %}

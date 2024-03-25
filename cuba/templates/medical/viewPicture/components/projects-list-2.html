@@ -7,26 +7,27 @@
             {% else %}
                 <div id="project-box" class="project-box"><span id="sp-{{ medical_picture.id }}" class="badge badge-success">处理完成</span>
             {% endif %}
-        <a href="#" style="color: inherit;"><h6>{{ medical_picture.user.name }}_{{ medical_picture.imageType }}</h6></a>
+        <a href="{{ url_for('medical.Pictures', submit=medical_picture.submitImage, output=medical_picture.outputImage) }}" style="color: inherit;">
+            <h6>{{ medical_picture.user.name }}_{{ medical_picture.imageType }}</h6></a>
         <div class="media"><img class="img-20 me-1 rounded-circle"
                                 src="{{ url_for('static', filename=medical_picture.user.userHead)}}" alt="" data-original-title="" title="">
             <div class="media-body">
                 <p>{{ medical_picture.user.username }}</p>
             </div>
         </div>
-            <a href="#" style="color: inherit;">
-        <p>{{ medical_picture.description }}</p>
-        <div class="row details">
-            <div class="col-6"><span>姓名</span></div>
-            <div class="col-6 text-primary">{{ medical_picture.user.name }}</div>
-            <div class="col-6"> <span>年龄</span></div>
-            <div class="col-6 text-primary">{{ medical_picture.user.age }}</div>
-            <div class="col-6"> <span>图片类型</span></div>
-            <div class="col-6 text-primary">{{ medical_picture.imageType }}</div>
-            <div class="col-6"> <span>上传时间</span></div>
-            <div class="col-6 text-primary">{{ medical_picture.uploadTime }}</div>
-        </div>
-            </a>
+        <a href="{{ url_for('medical.Pictures', submit=medical_picture.submitImage, output=medical_picture.outputImage) }}" style="color: inherit;">
+            <p>{{ medical_picture.description }}</p>
+            <div class="row details">
+                <div class="col-6"><span>姓名</span></div>
+                <div class="col-6 text-primary">{{ medical_picture.user.name }}</div>
+                <div class="col-6"> <span>年龄</span></div>
+                <div class="col-6 text-primary">{{ medical_picture.user.age }}</div>
+                <div class="col-6"> <span>图片类型</span></div>
+                <div class="col-6 text-primary">{{ medical_picture.imageType }}</div>
+                <div class="col-6"> <span>上传时间</span></div>
+                <div class="col-6 text-primary">{{ medical_picture.uploadTime }}</div>
+            </div>
+        </a>
         <div class="project-status mt-4">
             {% if medical_picture.isDoing %}
                 <div class="media mb-0">

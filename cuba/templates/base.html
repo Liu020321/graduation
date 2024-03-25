@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" dir="{{ layout }}">
-  <head>
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -42,72 +42,76 @@
     <link id="color" rel="stylesheet" href="{{ url_for('static', filename = 'assets/css/color-1.scss.css') }}" media="screen" />
     <!-- Responsive css -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'assets/css/responsive.scss.css') }}" />
-  </head>
+</head>
 
-  <body class="{{ layout }}" onload="{{ jsFunction }}">
-    <!-- loader starts -->
-    <div class="loader-wrapper">
-      <div class="loader-index">
+<body class="{{ layout }}" onload="{{ jsFunction }}">
+<!-- loader starts -->
+<div class="loader-wrapper">
+    <div class="loader-index">
         <span></span>
-      </div>
-      <svg>
+    </div>
+    <svg>
         <defs></defs>
         <filter id="goo">
-          <fegaussianblur in="SourceGraphic" stddeviation="11" result="blur"></fegaussianblur>
-          <fecolormatrix in="blur" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo"></fecolormatrix>
+            <fegaussianblur in="SourceGraphic" stddeviation="11" result="blur"></fegaussianblur>
+            <fecolormatrix in="blur" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo"></fecolormatrix>
         </filter>
-      </svg>
-    </div>
-    <!-- loader ends -->
-    <!-- tap on top starts -->
-    <div class="tap-top">
-      <i data-feather="chevrons-up"></i>
-    </div>
-    <!-- tap on tap ends -->
-    <!-- page-wrapper Start -->
-    <div class="page-wrapper compact-wrapper" id="pageWrapper">
-      {% include 'layout/header.html' %}
-      <!-- Page Body Start -->
-      <div class="page-body-wrapper">
+    </svg>
+</div>
+<!-- loader ends -->
+<!-- tap on top starts -->
+<div class="tap-top">
+    <i data-feather="chevrons-up"></i>
+</div>
+<!-- tap on tap ends -->
+<!-- page-wrapper Start -->
+<div class="page-wrapper compact-wrapper" id="pageWrapper">
+    {% include 'layout/header.html' %}
+    <!-- Page Body Start -->
+    <div class="page-body-wrapper">
         {% include 'layout/sidebar.html' %}
 
         {% block content %}
 
         {% endblock %}
-        {% include 'layout/footer.html' %}
-      </div>
+        {% if hide_footer %}
+
+        {% else %}
+            {% include 'layout/footer.html' %}
+        {% endif %}
     </div>
+</div>
 
-    <!-- latest jquery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <!-- Bootstrap js -->
-    <script src="{{ url_for('static', filename = 'assets/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
-    <!-- feather icon js -->
-    <script src="{{ url_for('static', filename = 'assets/js/icons/feather-icon/feather.min.js') }}"></script>
-    <script src="{{ url_for('static', filename = 'assets/js/icons/feather-icon/feather-icon.js') }}"></script>
-    <!-- scrollbar js -->
-    <script src="{{ url_for('static', filename = 'assets/js/scrollbar/simplebar.js') }}"></script>
-    <script src="{{ url_for('static', filename = 'assets/js/scrollbar/custom.js') }}"></script>
-    <!-- Sidebar jquery -->
-    <script src="{{ url_for('static', filename = 'assets/js/config.js') }}"></script>
-    <!-- Plugins JS start -->
-    <script src="{{ url_for('static', filename = 'assets/js/sidebar-menu.js') }}"></script>
-    <script src="{{ url_for('static', filename = 'assets/js/slick/slick.min.js') }}"></script>
-    <script src="{{ url_for('static', filename = 'assets/js/slick/slick.js') }}"></script>
-    <script src="{{ url_for('static', filename = 'assets/js/header-slick.js') }}"></script>
-    {% block scriptcontent %}
+<!-- latest jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- Bootstrap js -->
+<script src="{{ url_for('static', filename = 'assets/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
+<!-- feather icon js -->
+<script src="{{ url_for('static', filename = 'assets/js/icons/feather-icon/feather.min.js') }}"></script>
+<script src="{{ url_for('static', filename = 'assets/js/icons/feather-icon/feather-icon.js') }}"></script>
+<!-- scrollbar js -->
+<script src="{{ url_for('static', filename = 'assets/js/scrollbar/simplebar.js') }}"></script>
+<script src="{{ url_for('static', filename = 'assets/js/scrollbar/custom.js') }}"></script>
+<!-- Sidebar jquery -->
+<script src="{{ url_for('static', filename = 'assets/js/config.js') }}"></script>
+<!-- Plugins JS start -->
+<script src="{{ url_for('static', filename = 'assets/js/sidebar-menu.js') }}"></script>
+<script src="{{ url_for('static', filename = 'assets/js/slick/slick.min.js') }}"></script>
+<script src="{{ url_for('static', filename = 'assets/js/slick/slick.js') }}"></script>
+<script src="{{ url_for('static', filename = 'assets/js/header-slick.js') }}"></script>
+{% block scriptcontent %}
 
-    {% endblock %}
+{% endblock %}
 
-    <!-- Plugins JS Ends -->
-    <!-- Theme js -->
-    <script src="{{ url_for('static', filename = 'assets/js/script.js') }}"></script>
-    <script src="{{ url_for('static', filename = 'assets/js/theme-customizer/customizer.js') }}"></script>
-    <!-- login js -->
-    <!-- Plugin used -->
+<!-- Plugins JS Ends -->
+<!-- Theme js -->
+<script src="{{ url_for('static', filename = 'assets/js/script.js') }}"></script>
+<script src="{{ url_for('static', filename = 'assets/js/theme-customizer/customizer.js') }}"></script>
+<!-- login js -->
+<!-- Plugin used -->
 
-    {% block script %}
+{% block script %}
 
-    {% endblock %}
-  </body>
+{% endblock %}
+</body>
 </html>

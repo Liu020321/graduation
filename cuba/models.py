@@ -35,9 +35,21 @@ class MedicalPicture(db.Model):
     imageType = db.Column(db.String(20), nullable=False)
     uploadTime = db.Column(db.DateTime, nullable=False)
     description = db.Column(db.String(255), nullable=False)
-    medicalImage = db.Column(db.String(255), nullable=False)
+    submitImage = db.Column(db.String(255), nullable=False)
+    outputImage = db.Column(db.String(255), nullable=True)
     isDoing = db.Column(db.Boolean, default=False)
 
     user = db.relationship('User', foreign_keys=user_id, backref='medical_pictures')
+
+
+class ModalList(db.Model):
+    # __tablename__ = 'modal_lists'  # 表名为 modal_lists
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    image_id = db.Column(db.Integer, db.ForeignKey(MedicalPicture.id), nullable=False)
+    image_time = db.Column(db.DateTime, nullable=False)
+    description = db.Column(db.String(255), nullable=False)
+    image = db.Column(db.String(255), nullable=False)
+
+    images = db.relationship('MedicalPicture', foreign_keys=image_id, backref='modal_list')
 
 

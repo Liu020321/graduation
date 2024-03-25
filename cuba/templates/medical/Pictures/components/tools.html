@@ -1,0 +1,173 @@
+<div class="mb-3" style="height: 15px;"></div> <!-- 添加一个空白的div -->
+<div class="col-md-12 project-list">
+    <div class="card">
+        <div class="row">
+            <div class="col-xxl-12 text-center">
+                <div class="btn-group" role="group">
+                    <a data-original-title="返回列表" data-placement="top" data-bs-toggle="tooltip" title="返回列表" href="#" onclick="goBack()">
+                        <i class="icon-home" style="font-size: 30px;margin-right: 10px"></i></a>
+                </div>
+                <div class="btn-group col-xxl-1" role="group">
+                    <button class="btn btn-primary dropdown-toggle" id="dropdownMenuButton" type="button"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-default-text="测量" title="测量工具" onclick="toggleDropdownMenu(event, 'dropdown-content');">测量</button>
+                    <div class="dropdown-menu" id="dropdown-content" aria-labelledby="dropdownMenuButton">
+                        <a data-original-title="标尺工具" data-toggle="tooltip" data-placement="top" class="dropdown-item" href="#" onclick="selectAndActivateTool(this, '标尺', 'Length', event);">标尺</a>
+                        <a data-original-title="比例叠加工具" data-toggle="tooltip" data-placement="top" class="dropdown-item" href="#" onclick="selectAndActivateTool(this, '比例叠加', 'ScaleOverlay', event);">比例叠加</a>
+                        <a data-original-title="角度工具" data-toggle="tooltip" data-placement="top" class="dropdown-item" href="#" onclick="selectAndActivateTool(this, '角度', 'Angle', event);">角度</a>
+                        <a data-original-title="柯布角工具" data-toggle="tooltip" data-placement="top" class="dropdown-item" href="#" onclick="selectAndActivateTool(this, '柯布角', 'CobbAngle', event);">柯布角</a>
+                        <a data-original-title="双向工具" data-toggle="tooltip" data-placement="top" class="dropdown-item" href="#" onclick="selectAndActivateTool(this, '双向', 'Bidirectional',  event);">双向</a>
+                    </div>
+                </div>
+                <div class="btn-group col-xxl-1" role="group">
+                    <button data-original-title="滚轮工具" data-placement="top" data-bs-toggle="tooltip" title="滚轮工具"  class="btn btn-primary" type="button" onclick="toggleButton(this, 'StackScrollMouseWheel', event)">滚轮</button>
+                </div>
+                <div class="btn-group col-xxl-1" role="group">
+                    <button class="btn btn-primary dropdown-toggle" id="dropdownMenuButton1" type="button"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-default-text="缩放" title="缩放工具" onclick="toggleDropdownMenu(event, 'dropdown-content1');">缩放</button>
+                    <div class="dropdown-menu" id="dropdown-content1" aria-labelledby="dropdownMenuButton1">
+                        <a data-original-title="鼠标缩放工具" data-toggle="tooltip" data-placement="top" class="dropdown-item" href="#" onclick="selectAndActivateTool(this, '鼠标缩放', 'Zoom', event);">鼠标缩放</a>
+                        <a data-original-title="滚轮缩放工具" data-toggle="tooltip" data-placement="top" class="dropdown-item" href="#" onclick="selectAndActivateTool(this, '滚轮缩放', 'ZoomMouseWheel', event);">滚轮缩放</a>
+                        <a data-original-title="堆栈滚动工具" data-toggle="tooltip" data-placement="top" class="dropdown-item" href="#" onclick="selectAndActivateTool(this, '堆栈滚动', 'StackScroll', event);">堆栈滚动</a>
+                    </div>
+                </div>
+                <div class="btn-group col-xxl-1" role="group">
+                    <button class="btn btn-primary dropdown-toggle" id="dropdownMenuButton2" type="button"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-default-text="探针" title="探针工具" onclick="toggleDropdownMenu(event, 'dropdown-content2');">探针</button>
+                    <div class="dropdown-menu" id="dropdown-content2" aria-labelledby="dropdownMenuButton2">
+                        <a data-original-title="放大镜工具" data-toggle="tooltip" data-placement="top" class="dropdown-item" href="#" onclick="selectAndActivateTool(this, '放大镜', 'Magnify', event);">放大镜</a>
+                        <a data-original-title="拖动探针工具" data-toggle="tooltip" data-placement="top" class="dropdown-item" href="#" onclick="selectAndActivateTool(this, '拖动探针', 'DragProbe', event);">拖动探针</a>
+                        <a data-original-title="探针定位工具" data-toggle="tooltip" data-placement="top" class="dropdown-item" href="#" onclick="selectAndActivateTool(this, '探针定位', 'Probe', event);">探针定位</a>
+                    </div>
+                </div>
+                <div class="btn-group col-xxl-1" role="group">
+                    <button data-original-title="平移工具" data-placement="top" data-bs-toggle="tooltip" title="平移工具" class="btn btn-primary" type="button" onclick="toggleButton(this, 'Pan', event)">平移</button>
+                </div>
+                <div class="btn-group col-xxl-1" role="group">
+                    <button data-original-title="旋转工具" data-placement="top" data-bs-toggle="tooltip" title="旋转工具" class="btn btn-primary" type="button" onclick="toggleButton(this, 'Rotate', event)">旋转</button>
+                </div>
+                <div class="btn-group col-xxl-1" role="group">
+                    <button class="btn btn-primary dropdown-toggle" id="dropdownMenuButton3" type="button"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-default-text="Wc" title="Wwwc工具" onclick="toggleDropdownMenu(event, 'dropdown-content3');">Wc</button>
+                    <div class="dropdown-menu" id="dropdown-content3" aria-labelledby="dropdownMenuButton3">
+                        <a data-original-title="WWWC区域工具" data-placement="top" data-bs-toggle="tooltip" class="dropdown-item"  onclick="selectAndActivateTool(this,'Wwwc区域', 'WwwcRegion', event);">Wc区域</a>
+                        <a data-original-title="WWWC工具" data-placement="top" data-bs-toggle="tooltip" class="dropdown-item"  onclick="selectAndActivateTool(this,'Wwwc', 'Wwwc', event);">Wc</a>
+                    </div>
+                </div>
+                <div class="btn-group col-xxl-1" role="group">
+                    <button class="btn btn-primary dropdown-toggle" id="dropdownMenuButton4" type="button"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-default-text="注释" title="注释工具" onclick="toggleDropdownMenu(event, 'dropdown-content4');">注释</button>
+                    <div class="dropdown-menu" id="dropdown-content4" aria-labelledby="dropdownMenuButton4">
+                        <a data-original-title="箭头注释工具" data-toggle="tooltip" data-placement="top" class="dropdown-item" href="#" onclick="selectAndActivateTool(this,'箭头注释', 'ArrowAnnotate', event);">箭头注释</a>
+                        <a data-original-title="文本注释工具" data-toggle="tooltip" data-placement="top" class="dropdown-item" href="#" onclick="selectAndActivateTool(this,'文本注释', 'TextMarker', event);">文本注释</a>
+                        <a data-original-title="数据信息工具" data-toggle="tooltip" data-placement="top" class="dropdown-item" href="#" onclick="selectAndActivateTool(this,'数据信息', 'ImageStatistics', event);">数据信息</a>
+                    </div>
+                </div>
+                <div class="btn-group col-xxl-1" role="group">
+                    <button class="btn btn-primary dropdown-toggle" id="dropdownMenuButton5" type="button"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-default-text="绘图" title="绘图工具" onclick="toggleDropdownMenu(event, 'dropdown-content5');">绘图</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton5"  id="dropdown-content5">
+                        <a data-original-title="画笔工具" data-toggle="tooltip" data-placement="top" class="dropdown-item" href="#" onclick="selectAndActivateTool(this,'画笔', 'FreehandRoi', event);">画笔</a>
+                        <a data-original-title="椭圆工具" data-toggle="tooltip" data-placement="top" class="dropdown-item" href="#" onclick="selectAndActivateTool(this,'椭圆', 'EllipticalRoi', event);">椭圆</a>
+                        <a data-original-title="矩形工具" data-toggle="tooltip" data-placement="top" class="dropdown-item" href="#" onclick="selectAndActivateTool(this,'矩形', 'RectangleRoi', event);">矩形</a>
+                        <a data-original-title="自定义椭圆工具" data-toggle="tooltip" data-placement="top" class="dropdown-item" href="#" onclick="selectAndActivateTool(this,'自定义椭圆', 'RotatedEllipticalRoi', event);">自定义椭圆</a>
+                        <a data-original-title="屏幕触控工具" data-toggle="tooltip" data-placement="top" class="dropdown-item" href="#" onclick="selectAndActivateTool(this,'屏幕触控', 'StackScrollMultiTouchTool', event);">屏幕触控</a>
+                    </div>
+                </div>
+                <div class="btn-group col-xxl-1" role="group" style="margin-left: 5px">
+                    <button data-original-title="添加标记" id="screenPicture" type="button" data-bs-toggle="modal" data-bs-target="#addModal" title="添加标记" class="btn btn-secondary" href="#">
+                        <i data-feather="plus-square"> </i>
+                    </button>
+                    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addModalLabel">添加标记</h5>
+                                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="col-md-12">
+                                        <label class="form-label" for="dt-minimum"><h6>标记时间</h6></label>
+                                        <div class="col-md-12">
+                                            <div class="input-group date" id="dt-minimum" data-target-input="nearest">
+                                                <input class="form-control datetimepicker-input digits" type="text" data-target="#dt-minimum">
+                                                <div class="input-group-text" data-target="#dt-minimum" data-toggle="datetimepicker"><i
+                                                        class="fa fa-calendar"> </i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3" style="height: 7px;"></div> <!-- 添加一个空白的div -->
+                                    <div class="col-md-12">
+                                        <div>
+                                            <label class="form-label" for="exampleFormControlTextarea4"><h6>病情描述</h6></label>
+                                            <textarea class="form-control col-md-12" id="exampleFormControlTextarea4" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3" style="height: 7px;"></div> <!-- 添加一个空白的div -->
+                                    <div class="col-md-12">
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <img style="width: 550px;height: 154px " src="#" id="screenshotImage" alt="添加标记中...">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary" type="button" data-bs-dismiss="modal">关闭</button>
+                                    <button class="btn btn-secondary" type="button">添加标记</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group col-xxl-1" role="group">
+                    <a data-original-title="添加记录" type="button" data-bs-toggle="modal" data-bs-target="#listModal" title="添加记录" class="btn btn-secondary" href="#">
+                        <i class="fa fa-file-text-o"></i>
+                    </a>
+                    <div class="modal fade" id="listModal" tabindex="-1" role="dialog" aria-labelledby="listModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="listModalLabel">添加记录</h5>
+                                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="col-sm-12 col-lg-12 col-xl-12">
+                                        <div class="table-responsive">
+                                            <table class="table table-dashed">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">图例</th>
+                                                    <th scope="col">添加事件</th>
+                                                    <th scope="col">修改</th>
+                                                    <th scope="col">删除</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <th scope="row">1</th>
+                                                    <td>aged</td>
+                                                    <td>Medium</td>
+                                                    <td>Triaged</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">5</th>
+                                                    <td>ed</td>
+                                                    <td>Medium</td>
+                                                    <td>No Triaged</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" type="button">生成报告</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

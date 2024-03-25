@@ -11,6 +11,8 @@ from multiprocessing import Process
 
 from cuba.views.commands import nnunet
 
+import base64
+
 medical = Blueprint("medical", __name__)
 
 
@@ -68,7 +70,53 @@ def check_isDoing():
 @medical.route('/Pictures')
 @login_required
 def Pictures():
-    return render_template("medical/Pictures/Pictures.html")
+    submit = request.args.get('submit')
+    output = request.args.get('output')
+    hide_footer = True
+
+    # 根据 output 和 submit 查询医疗图片信息
+    medical_picture = MedicalPicture.query.filter_by(outputImage=output, submitImage=submit).first()
+    if medical_picture:
+        # 如果找到医疗图片信息，则获取用户 ID 和图片信息
+        user_id = medical_picture.user_id
+        user = User.query.get(user_id)  # 查询用户信息
+        image_info = {
+            'id': medical_picture.id,
+            'imageType': medical_picture.imageType,
+            'uploadTime': medical_picture.uploadTime,
+            'description': medical_picture.description,
+            'submitImage': medical_picture.submitImage,
+            'outputImage': medical_picture.outputImage,
+            'isDoing': medical_picture.isDoing,
+            'user': {
+                'id': user.id,
+                'username': user.username,
+                'userHead': user.userHead,
+                'email': user.email,
+                'name': user.name,
+                'age': user.age,
+                'idCard': user.idCard,
+                'isAdmin': user.isAdmin
+            }
+        }
+    else:
+        user_id = None
+        image_info = None
+
+    return render_template("medical/Pictures/Pictures.html", hide_footer=hide_footer, submit=submit, output=output, user_id=user_id, image_info=image_info)
+
+
+@medical.route('/save_screenshot', methods=['POST'])
+@login_required
+def save_screenshot():
+    # 从请求中获取截图数据
+    screenshot_data = request.form['screenshot']
+
+    # 将截图数据保存到静态目录中
+    with open(os.path.join(current_app.root_path, 'static', 'assets', 'images', 'screenPictures' 'screenshot.png'), 'wb') as f:
+        f.write(screenshot_data.decode('base64'))
+
+    return 'Screenshot saved successfully!'
 
 
 @medical.route('/medical', methods=['POST'])
@@ -117,7 +165,8 @@ def medical_add():
 
                             # 构建目标文件的路径
                             target_file_path = os.path.join(target_folder, new_filename)
-                            save_file_path = os.path.join(save_folder, save_filename)
+                            submit_path = os.path.join('/static', 'medical', folder_name, 'submit', new_filename)
+                            output_path = os.path.join('/static', save_folder, save_filename)
 
                             # 保存文件到目标路径
                             file.save(target_file_path)
@@ -128,7 +177,8 @@ def medical_add():
                                 user_id=user_id,
                                 uploadTime=upload_time,
                                 description=description,
-                                medicalImage=save_file_path,  # 保存目标文件的路径
+                                submitImage=submit_path,  # 保存目标文件的路径
+                                outputImage=output_path,
                                 isDoing=1
                             )
                             db.session.add(medical_picture)

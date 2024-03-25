@@ -1,82 +1,54 @@
 /* 样式调整为您之前提供的样式 */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/** {*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    box-sizing: border-box;*/
+/*}*/
 .imDiv{
-    width: 1175px;
-    height: 610px;
-    margin-left: 3px; /* 添加左边距为7px */
-    margin-top: 0; /* 添加左边距为7px */
-    margin-bottom: 0; /* 添加左边距为7px */
-    display: flex; /* 使用弹性盒子模型 */
-}
-.imageDiv {
-    width: 1175px;
-    height: 610px;
-    border-radius: 15px; /* 调整圆角的弧度 */
-    /* 添加阴影 */
-    box-shadow: 0 0 15px rgba(51, 51, 51, 1); /* 可调整阴影的偏移、模糊度和颜色 */
-    border: 3px solid mediumpurple; /* 设置边框宽度为2px，样式为实线，颜色为灰色 */
-    background-color: black;
-    margin-left: 15px; /* 添加左边距为7px */
-    margin-top: 0; /* 添加左边距为7px */
-    margin-bottom: 0; /* 添加左边距为7px */
+    width: 1000px;
+    height: 407px;
     display: flex; /* 使用弹性盒子模型 */
 }
 .imageDiv1 {
-    width: 570px;
-    height: 610px;
+    width: 407px;
+    height: 407px;
     border-radius: 15px; /* 调整圆角的弧度 */
     /* 添加阴影 */
     box-shadow: 0 0 15px rgba(51, 51, 51, 1); /* 可调整阴影的偏移、模糊度和颜色 */
     border: 3px solid mediumpurple; /* 设置边框宽度为2px，样式为实线，颜色为灰色 */
     background-color: black;
-    margin-left: 15px; /* 添加左边距为7px */
-    margin-right: 5px; /* 添加左边距为7px */
-    margin-top: 0; /* 添加左边距为7px */
-    margin-bottom: 0; /* 添加左边距为7px */
     display: flex; /* 使用弹性盒子模型 */
-    justify-content: center;
-    align-items: center;
 }
 .imageDiv2 {
-    width: 570px;
-    height: 610px;
+    width: 407px;
+    height: 407px;
     border-radius: 15px; /* 调整圆角的弧度 */
     /* 添加阴影 */
     box-shadow: 0 0 15px rgba(51, 51, 51, 1); /* 可调整阴影的偏移、模糊度和颜色 */
     border: 3px solid mediumpurple; /* 设置边框宽度为2px，样式为实线，颜色为灰色 */
+    margin: 0 10px;
     background-color: black;
-    margin-left: 5px; /* 添加左边距为7px */
-    margin-right: 15px; /* 添加左边距为7px */
-    margin-top: 0; /* 添加左边距为7px */
-    margin-bottom: 0; /* 添加左边距为7px */
     display: flex; /* 设置为内联块级元素 */
 
 }
 
 .cornerstone-element {
     width: 1150px;
-    height: 600px;
+    height: 200px;
     margin: 3px auto 3px auto;
     display: inline-block; /* 设置为内联块级元素 */
 }
 .cornerstone-element1 {
-    width: 560px;
-    height: 600px;
-    margin-left: 5px;
-    margin-right: 5px;
-    margin-top: 3px; /* 添加左边距为7px */
+    width: 575px;
+    height: 396px;
+    margin: 3px 5px;
     display: inline-block; /* 设置为内联块级元素 */
 
 }
 .cornerstone-element2 {
-    width: 560px;
-    height: 600px;
-    margin-left: 5px;
-    margin-top: 3px; /* 添加左边距为7px */
+    width: 575px;
+    height: 396px;
+    margin: 3px 5px;
     display: inline-block; /* 设置为内联块级元素 */
 
 }

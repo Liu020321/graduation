@@ -1,40 +1,27 @@
- <div class="mb-3" style="height: 15px;"></div> <!-- 添加一个空白的div -->
-<div class="col-md-12 project-list">
-  <div class="card">
-    <div class="row">
-      <div class="col-md-6">
-       <ul class="nav nav-tabs border-tab" id="myTab" role="tablist">
-          <li class="nav-item"><a class="nav-link active" id="all-tab" data-bs-toggle="tab" href="#all"
-              role="tab" aria-controls="all" aria-selected="true"><i data-feather="target"></i>所有图片</a></li>
-          <li class="nav-item"><a class="nav-link" id="profile-top-tab" data-bs-toggle="tab" href="#processing"
-              role="tab" aria-controls="processing" aria-selected="false"><i data-feather="info"></i>处理中</a></li>
-          <li class="nav-item"><a class="nav-link" id="contact-top-tab" data-bs-toggle="tab" href="#completed"
-              role="tab" aria-controls="completed" aria-selected="false"><i data-feather="check-circle"></i>处理完成</a>
-          </li>
-        </ul>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group mb-0 me-0"></div><a class="btn btn-primary" href="{{ url_for('medical.import_picture') }}"> <i
-            data-feather="plus-square"> </i>导入一个新的图片</a>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="row">
-  <div class="col-sm-12">
-    <div class="card">
-      <div class="card-header">
-        <h5>Sample Card</h5><span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
-      </div>
-      <div class="card-body">
-        <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-          dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-          nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-          id est laborum."</p>
-      </div>
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="imDiv col-xxl-12" id="contentToScreenshot">
+                    <div class="imageDiv1 col-xxl-6">
+                        <div
+                                id="topgram_element"
+                                class="cornerstone-element1"
+                                data-index="0"
+                                oncontextmenu="return false"
+                        ></div>
+                    </div>
+                    <div class="imageDiv2 col-xxl-6">
+                        <div
+                                id="chest_element"
+                                class="cornerstone-element2"
+                                data-index="0"
+                                oncontextmenu="return false"
+                        ></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <!-- Container-fluid Ends-->
