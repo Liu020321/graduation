@@ -106,17 +106,121 @@ def Pictures():
     return render_template("medical/Pictures/Pictures.html", hide_footer=hide_footer, submit=submit, output=output, user_id=user_id, image_info=image_info)
 
 
-@medical.route('/save_screenshot', methods=['POST'])
+@medical.route('/addModal', methods=['POST'])
 @login_required
-def save_screenshot():
-    # 从请求中获取截图数据
-    screenshot_data = request.form['screenshot']
+def add_modal():
+    # 接收表单数据
+    image_id = request.form.get('imageId')
+    image = request.form.get('imageData')
+    image_time = datetime.datetime.strptime(request.form.get('imageTime'), '%m/%d/%Y %I:%M %p')
+    description = request.form.get('description')
 
-    # 将截图数据保存到静态目录中
-    with open(os.path.join(current_app.root_path, 'static', 'assets', 'images', 'screenPictures' 'screenshot.png'), 'wb') as f:
-        f.write(screenshot_data.decode('base64'))
+    # 解码图片数据并保存到指定目录
+    image_data = image.replace('data:image/png;base64,', '')
+    image_bytes = base64.b64decode(image_data)
+    formatted_time = image_time.strftime('%Y-%m-%d_%H_%M').replace(' ', '').replace(':', '_')
+    image_filename = f"{formatted_time}_image.png"
+    # 构建图片保存路径
+    base_path = f"static/assets/images/Pictures/{image_id}/"
+    save_path = os.path.join(f'/static/assets/images/Pictures/{image_id}/', image_filename)
+    image_path = os.path.join(current_app.root_path, base_path, image_filename)
+    # 确保目录存在，如果不存在则创建
+    os.makedirs(os.path.dirname(image_path), exist_ok=True)
+    # 保存图片到指定路径
+    with open(image_path, 'wb') as f:
+        f.write(image_bytes)
 
-    return 'Screenshot saved successfully!'
+    # 保存表单数据和图片路径到数据库中
+    modal_list = ModalList(
+        image_id=image_id,
+        image_time=image_time,
+        description=description,
+        image=save_path)
+    db.session.add(modal_list)
+    db.session.commit()
+
+    return jsonify({'message': '记录保存成功!'}), 200
+
+
+@medical.route('/deleteModal/<int:modal_id>', methods=['DELETE'])
+@login_required
+def delete_modal(modal_id):
+    # 查询要删除的数据
+    modal = ModalList.query.get(modal_id)
+    if modal:
+        # 删除数据
+        db.session.delete(modal)
+        db.session.commit()
+        # 返回成功消息
+        return jsonify({'message': '删除成功'}), 200
+    else:
+        # 如果找不到对应的数据，返回错误消息
+        return jsonify({'message': '未找到要删除的数据'}), 404
+
+
+@medical.route('/updateModal', methods=['POST', 'GET'])
+@login_required
+def updateModal():
+    try:
+        # 从请求表单中获取数据
+        list_id = request.form.get('list_id')
+        image_id = request.form.get('query_id')
+        image_time = request.form.get('updateImageTime')
+        description = request.form.get('updateDescription')
+
+        # 查询数据库中对应的记录
+        modal = ModalList.query.get(list_id)
+
+        # 更新记录的其他字段
+        modal.image_time = image_time
+        modal.description = description
+
+        # 提交更新到数据库
+        db.session.commit()
+
+        modal_datas = ModalList.query.filter_by(image_id=image_id).all()
+
+        # 将查询到的数据转换成字典列表
+        modal_list = []
+        for modal in modal_datas:
+            modal_list.append({
+                'id': modal.id,
+                'image_id': modal.image_id,
+                'image_time': modal.image_time.strftime('%Y-%m-%d %H:%M'),
+                'description': modal.description,
+                'image': modal.image
+            })
+
+        # 返回 JSON 响应
+        return jsonify({'message': '记录修改成功!'}), 200
+    except Exception as e:
+        # 返回 JSON 响应，表示修改失败
+        return jsonify({'error': str(e)}), 500
+
+
+@medical.route('/queryModal', methods=['POST', 'GET'])
+@login_required
+def queryModal():
+    image_id = request.args.get('image_id')  # 获取前端传递的 image_id
+    print(image_id)
+
+    # 根据 image_id 查询数据库中所有数据
+    modal_data = ModalList.query.filter_by(image_id=image_id).all()
+
+    # 将查询到的数据转换成字典列表
+    modal_list = []
+    for modal in modal_data:
+        modal_list.append({
+            'id': modal.id,
+            'image_id': modal.image_id,
+            'image_time': modal.image_time.strftime('%Y-%m-%d %H:%M'),
+            'description': modal.description,
+            'image': modal.image
+        })
+
+    print(modal_list)
+    # 返回 JSON 格式的数据
+    return jsonify({'modal_list': modal_list})
 
 
 @medical.route('/medical', methods=['POST'])

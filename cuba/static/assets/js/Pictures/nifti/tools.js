@@ -1,10 +1,10 @@
 // 点击按钮触发截图操作
-    $('#screenPicture').click(function() {
-       html2canvas($('#contentToScreenshot')[0], {
+$('#screenPicture').click(function() {
+    html2canvas($('#contentToScreenshot')[0], {
         width: 1500, // 指定截图宽度
         height: 500 // 指定截图高度
     }).then(canvas => {
-      // 获取截图的像素数据
+        // 获取截图的像素数据
         var context = canvas.getContext('2d');
         var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
         var pixels = imageData.data;
@@ -103,27 +103,47 @@
 
         // 将 Data URL 设置为图片的 src 属性
         $('#screenshotImage').attr('src', screenshotImage);
+        // 将 Data URL 设置到隐藏的表单元素中，以便提交到后端
+        $('#imageData').val(screenshotImage);
         // 显示模态框
         $('#screenshotModal').show();
-
-            // // 发送截图数据给后端保存
-            // $.ajax({
-            //     type: 'POST',
-            //     url: '/save_screenshot',
-            //     data: {
-            //         screenshot_data: screenshotImage
-            //     },
-            //     success: function(response) {
-            //         console.log(response);
-            //         // 展开模态框
-            //         $('#addModal').modal('show');
-            //     },
-            //     error: function(err) {
-            //         console.error('Error:', err);
-            //     }
-            // });
-        });
     });
+});
+
+// 监听表单提交事件
+document.getElementById('imageForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // 阻止默认提交行为
+
+    // 获取表单数据
+    let formData = new FormData(this);
+
+    // 发送 AJAX 请求
+    fetch('/addModal', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.json(); // 解析 JSON 响应数据
+            } else {
+                throw new Error('网络错误');
+            }
+        })
+        .then(data => {
+            // 使用 SweetAlert2 弹窗提示保存成功
+            Swal.fire({
+                icon: 'success',
+                title: '成功',
+                text: data.message,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        })
+        .catch(error => {
+            console.error('错误:', error);
+        });
+});
+
 
 
 function toggleDropdownMenu(event, dropdownId) {
