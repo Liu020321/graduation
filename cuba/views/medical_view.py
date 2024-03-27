@@ -165,7 +165,7 @@ def updateModal():
         # 从请求表单中获取数据
         list_id = request.form.get('list_id')
         image_id = request.form.get('query_id')
-        image_time = request.form.get('updateImageTime')
+        image_time = datetime.datetime.strptime(request.form.get('updateImageTime'), '%m/%d/%Y %I:%M %p')
         description = request.form.get('updateDescription')
 
         # 查询数据库中对应的记录
@@ -177,19 +177,6 @@ def updateModal():
 
         # 提交更新到数据库
         db.session.commit()
-
-        modal_datas = ModalList.query.filter_by(image_id=image_id).all()
-
-        # 将查询到的数据转换成字典列表
-        modal_list = []
-        for modal in modal_datas:
-            modal_list.append({
-                'id': modal.id,
-                'image_id': modal.image_id,
-                'image_time': modal.image_time.strftime('%Y-%m-%d %H:%M'),
-                'description': modal.description,
-                'image': modal.image
-            })
 
         # 返回 JSON 响应
         return jsonify({'message': '记录修改成功!'}), 200
@@ -213,7 +200,7 @@ def queryModal():
         modal_list.append({
             'id': modal.id,
             'image_id': modal.image_id,
-            'image_time': modal.image_time.strftime('%Y-%m-%d %H:%M'),
+            'image_time': modal.image_time.strftime('%m/%d/%Y %I:%M %p'),
             'description': modal.description,
             'image': modal.image
         })
