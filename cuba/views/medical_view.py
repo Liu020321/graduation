@@ -7,8 +7,7 @@ from docx.shared import Pt, Cm, Inches
 from flask import Flask, render_template, redirect, flash, Blueprint, request, session, jsonify, current_app, url_for
 from flask_login import login_required
 import datetime
-from docx2pdf import convert
-from win32com.client import pythoncom  # 导入 pythoncom
+from .convertto import convert_to
 
 from sqlalchemy.orm import joinedload
 from werkzeug.utils import secure_filename
@@ -236,7 +235,7 @@ def queryModal():
     return jsonify({'modal_list': modal_list})
 
 
-@medical.route('/insertMoadlDocx', methods=['POST'])
+@medical.route('/insertMoadlDocx', methods=['POST', 'GET'])
 @login_required
 def insertModalDocx():
     try:
@@ -329,18 +328,13 @@ def insertModalDocx():
         docx_path = os.path.join(docx_folder, docx_filename)
         doc.save(docx_path)
 
-        pythoncom.CoInitialize()  # 初始化 COM 线程
-        # 构建 PDF 文件路径
+        # 创建 PDF 文件
         pdf_filename = docx_filename.replace('.docx', '.pdf')
-        pdf_folder = docx_folder  # 与 DOCX 文件相同的目录
-        pdf_path = os.path.join(pdf_folder, pdf_filename)
-
-        # 将 DOCX 文件转换为 PDF
-        convert(docx_path, pdf_path)
+        convert_to([docx_path], "pdf")
 
         # 构建目标文件的路径
         docx_save_path = os.path.join('/static', 'word', folder_name, docx_filename)
-        pdf_save_path = os.path.join('/static', 'word', folder_name, pdf_filename)
+        pdf_save_path = os.path.join('/static', 'word', folder_name, 'out', pdf_filename)
 
         # 替换所有路径中的反斜杠为正斜杠
         docx_save_path = docx_save_path.replace('\\', '/')

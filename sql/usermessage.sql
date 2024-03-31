@@ -20,7 +20,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 -- Table structure for usermessage
 -- ----------------------------
-DROP TABLE IF EXISTS `usermessage`;
+DROP TABLE IF EXISTS UserMessage;
 CREATE TABLE `usermessage`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
@@ -40,8 +40,8 @@ CREATE TABLE `usermessage`  (
 -- ----------------------------
 -- Records of usermessage
 -- ----------------------------
-INSERT INTO `usermessage` VALUES (1, 1, 'assets/images/user/user_lht.png', '刘海涛', 22, 1, '长安区胜利北街17号石家庄铁道大学', '18731136590', 150403200203215133);
-INSERT INTO `usermessage` VALUES (2, 2, 'assets/images/dashboard/profile.png', '张长弓', 25, 1, '元宝山区平庄镇阳光花园', '19831130589', 150403199736892565);
-INSERT INTO `usermessage` VALUES (3, 3, 'assets/images/user/user.png', '王子李', 32, 0, '长安区胜利北街17号石家庄铁道大学', '13789592217', 14526199825783698);
+INSERT INTO UserMessage VALUES (1, 1, 'assets/images/user/user_lht.png', '刘海涛', 22, 1, '长安区胜利北街17号石家庄铁道大学', '18731136590', 150403200203215133);
+INSERT INTO UserMessage VALUES (2, 2, 'assets/images/dashboard/profile.png', '张长弓', 25, 1, '元宝山区平庄镇阳光花园', '19831130589', 150403199736892565);
+INSERT INTO UserMessage VALUES (3, 3, 'assets/images/user/user.png', '王子李', 32, 0, '长安区胜利北街17号石家庄铁道大学', '13789592217', 14526199825783698);
 
 SET FOREIGN_KEY_CHECKS = 1;

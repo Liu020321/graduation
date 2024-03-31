@@ -29,11 +29,12 @@ def login_post():
     password = request.form.get("password")
     remember = True if request.form.get("remember") else False
     user = User.query.filter_by(email=email).first()
+    user_message = UserMessage.query.filter_by(user_id=user.id).first()
     if user and check_password_hash(user.password, password):
         login_user(user, remember=remember)
         session['username'] = user.username
         session['admin'] = user.isAdmin
-        session['userHead'] = user.userHead
+        session['userHead'] = user_message.userHead
         if next_page:
             return redirect(next_page)
         else:
