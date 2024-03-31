@@ -1,0 +1,31 @@
+<!-- Page Header Start-->
+<div class="page-header col-xxl-12 card">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-dashed">
+                <tbody>
+                <tr>
+                    <td>姓名：{{ image_info.user.user_message.name }}</td>
+                    {% if image_info.user.user_message.sex %}
+                        <td>性别：男</td>
+                    {% else %}
+                        <td>性别：女</td>
+                    {% endif %}
+                    <td>用户姓名：{{ image_info.user.username }}</td>
+                    <td>身份证号：{{ image_info.user.user_message.idCard }}</td>
+                </tr>
+                <tr>
+                    <td>年龄：{{ image_info.user.user_message.age }}</td>
+                    <td>图片类型：{{ image_info.imageType }}</td>
+                    <td>拍摄时间：{{ image_info.uploadTime }}</td>
+                    <td>家庭住址：{{ image_info.user.user_message.asset }}</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+
+</div>
+<!-- Page Header Ends -->

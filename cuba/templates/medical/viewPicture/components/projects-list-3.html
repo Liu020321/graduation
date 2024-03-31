@@ -5,9 +5,9 @@
             {% if process.isDoing %}
                 <div class="col-xxl-4 col-md-6">
                     <div id="project-box" class="project-box"><span id="sp-{{ process.id }}" class="badge badge-primary">处理中</span>
-                        <h6>{{ process.user.name }}_{{ process.imageType }}</h6>
+                        <h6>{{ process.user.user_message.name }}_{{ process.imageType }}</h6>
                         <div class="media"><img class="img-20 me-1 rounded-circle"
-                                                src="{{ url_for('static', filename=process.user.userHead)}}" alt="" data-original-title="" title="">
+                                                src="{{ url_for('static', filename=process.user.user_message.userHead)}}" alt="" data-original-title="" title="">
                             <div class="media-body">
                                 <p>{{ process.user.username }}</p>
                             </div>
@@ -15,9 +15,9 @@
                         <p>{{ process.description }}</p>
                         <div class="row details">
                             <div class="col-6"><span>姓名</span></div>
-                            <div class="col-6 text-primary">{{ process.user.name }}</div>
+                            <div class="col-6 text-primary">{{ process.user.user_message.name }}</div>
                             <div class="col-6"> <span>年龄</span></div>
-                            <div class="col-6 text-primary">{{ process.user.age }}</div>
+                            <div class="col-6 text-primary">{{ process.user.user_message.age }}</div>
                             <div class="col-6"> <span>图片类型</span></div>
                             <div class="col-6 text-primary">{{ process.imageType }}</div>
                             <div class="col-6"> <span>上传时间</span></div>

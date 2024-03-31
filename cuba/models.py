@@ -10,16 +10,28 @@ from email.policy import default
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
-    userHead = db.Column(db.String(255), nullable=False, default="assets/images/dashboard/profile.png")
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(600), nullable=False)
-    name = db.Column(db.String(20),  nullable=False, index=True)
-    age = db.Column(db.Integer,  nullable=False, index=True)
-    idCard = db.Column(db.BigInteger, unique=True,  default=0)
     isAdmin = db.Column(db.Boolean,  default=False)
+
+    # 定义与 UserMessage 的一对多关系，并添加 backref
+    user_message = db.relationship('UserMessage', backref='user', uselist=False)
 
     def __repr__(self):
         return f"User('{self.username}','{self.email}')"
+
+
+class UserMessage(db.Model):
+    __tablename__ = 'UserMessage'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
+    userHead = db.Column(db.String(255), nullable=False, default="assets/images/dashboard/profile.png")
+    name = db.Column(db.String(20), nullable=False)
+    age = db.Column(db.Integer, nullable=False)
+    sex = db.Column(db.Integer, nullable=False)
+    asset = db.Column(db.String(255), nullable=False)
+    phone = db.Column(db.String(11), nullable=False)
+    idCard = db.Column(db.BigInteger, unique=True, default=0)
 
 
 class Todo(db.Model):
@@ -37,6 +49,8 @@ class MedicalPicture(db.Model):
     description = db.Column(db.String(255), nullable=False)
     submitImage = db.Column(db.String(255), nullable=False)
     outputImage = db.Column(db.String(255), nullable=True)
+    pdf_path = db.Column(db.String(255), nullable=True)
+    docx_path = db.Column(db.String(255), nullable=True)
     isDoing = db.Column(db.Boolean, default=False)
 
     user = db.relationship('User', foreign_keys=user_id, backref='medical_pictures')

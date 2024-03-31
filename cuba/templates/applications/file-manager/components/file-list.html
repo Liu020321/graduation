@@ -1,0 +1,94 @@
+<div class="col-sm-12">
+    <div class="card">
+        <div class="card-header">
+            <h3>报告列表</h3>
+        </div>
+        <div class="card-block row">
+            <div class="col-sm-12 col-lg-12 col-xl-12">
+                <div class="table-responsive signal-table">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col" style="font-weight: bold">姓名</th>
+                            <th scope="col" style="font-weight: bold">年龄</th>
+                            <th scope="col" style="font-weight: bold">图片类型</th>
+                            <th scope="col" style="font-weight: bold">报告名称</th>
+                            <th scope="col" style="font-weight: bold">报告文件</th>
+                            <th scope="col" style="font-weight: bold">状态</th>
+                            <th scope="col" style="font-weight: bold">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for medical_picture in medical_pictures%}
+                            <tr>
+                                <td>{{ medical_picture.user.user_message.name }}  </td>
+                                <td>{{ medical_picture.user.user_message.age }}</td>
+                                <td>{{ medical_picture.imageType }}</td>
+                                {% if medical_picture.pdf_path %}
+                                    <td>{{ medical_picture.pdf_path.split('/').pop() }}</td>
+                                    <td class="action"> <a class="pdf" href="{{ medical_picture.pdf_path }}" target="_blank"><i
+                                            class="icofont icofont-file-pdf"></i></a></td>
+                                    <td> <span class="badge rounded-pill badge-success">已生成</span></td>
+
+                                    <td>
+                                        <ul class="action">
+                                            <li class="edit"> <a href="{{ medical_picture.docx_path }}"><i class="icon-pencil-alt"></i></a></li>
+                                        </ul>
+                                    </td>
+                                {% else %}
+                                    <td></td>
+                                    <td ></td>
+                                    <td> <span class="badge rounded-pill badge-danger">未生成</span></td>
+                                    <td></td>
+                                {% endif %}
+                            </tr>
+
+                            </tbody>
+                        {% endfor %}
+
+                    </table>
+                </div>
+                <div class="col-md-12 project-list">
+                    <div class="row">
+                        <div class="col-md-6 text-center" style="font-size: 15px; display: flex; align-items: center;">
+                            <span>共{{ medical_pictures.total }}条记录,每页显示{{ medical_pictures.per_page }}条,共{{ medical_pictures.pages }}页</span>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- right aligned pagination-->
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-end pagination-primary">
+                                    <li class="page-item">
+                                        {% if medical_pictures.has_prev %}
+                                            <a class="page-link" href="/file_manager/?page={{ medical_pictures.prev_num }}&per_page{{ medical_pictures.per_page }}">上一页
+                                        {% else %}
+                                            <a class="page-link disabled" href="javascript:;">上一页
+                                        {% endif %}
+                                        </a>
+                                    </li>
+
+                                    {% for i in range(medical_pictures.pages) %}
+                                        {% if medical_pictures.page == i + 1 %}
+                                            <li class="page-item active">
+                                                {% else %}
+                                            <li class="page-item">
+                                        {% endif %}
+                                    <a class="page-link" href="/file_manager/?page={{ i + 1 }}&per_page={{ medical_pictures.per_page }}">{{ i + 1 }}</a></li>
+                                    {% endfor %}
+
+                                    <li class="page-item">
+                                        {% if medical_pictures.has_next %}
+                                            <a class="page-link" href="/file_manager/?page={{ medical_pictures.next_num }}&per_page={{ medical_pictures.per_page }}">下一页
+                                        {% else %}
+                                            <a class="page-link disabled" href="javascript:;">下一页
+                                        {% endif %}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

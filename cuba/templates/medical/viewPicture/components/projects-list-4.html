@@ -5,9 +5,9 @@
             <div class="col-xxl-4 col-md-6">
                 {% if not completed.isDoing %}
                     <div id="project-box" class="project-box"><span id="sp-{{ completed.id }}" class="badge badge-success">处理完成</span>
-                        <a href="{{ url_for('medical.Pictures', submit=completed.submitImage, output=completed.outputImage) }}" style="color: inherit;"><h6>{{ completed.user.name }}_{{ completed.imageType }}</h6></a>
+                        <a href="{{ url_for('medical.Pictures', submit=completed.submitImage, output=completed.outputImage) }}" style="color: inherit;"><h6>{{ completed.user.user_message.name }}_{{ completed.imageType }}</h6></a>
                         <div class="media"><img class="img-20 me-1 rounded-circle"
-                                                src="{{ url_for('static', filename=completed.user.userHead)}}" alt="" data-original-title="" title="">
+                                                src="{{ url_for('static', filename=completed.user.user_message.userHead)}}" alt="" data-original-title="" title="">
                             <div class="media-body">
                                 <p>{{ completed.user.username }}</p>
                             </div>
@@ -16,9 +16,9 @@
                         <p>{{ completed.description }}</p>
                         <div class="row details">
                             <div class="col-6"><span>姓名</span></div>
-                            <div class="col-6 text-primary">{{ completed.user.name }}</div>
+                            <div class="col-6 text-primary">{{ completed.user.user_message.name }}</div>
                             <div class="col-6"> <span>年龄</span></div>
-                            <div class="col-6 text-primary">{{ completed.user.age }}</div>
+                            <div class="col-6 text-primary">{{ completed.user.user_message.age }}</div>
                             <div class="col-6"> <span>图片类型</span></div>
                             <div class="col-6 text-primary">{{ completed.imageType }}</div>
                             <div class="col-6"> <span>上传时间</span></div>

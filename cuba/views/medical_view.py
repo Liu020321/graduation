@@ -1,8 +1,16 @@
 import os
 
-from flask import Flask, render_template, redirect, flash, Blueprint, request, session, jsonify, current_app
+import docx
+from docx import Document
+from itertools import tee, islice
+from docx.shared import Pt, Cm, Inches
+from flask import Flask, render_template, redirect, flash, Blueprint, request, session, jsonify, current_app, url_for
 from flask_login import login_required
 import datetime
+from docx2pdf import convert
+from win32com.client import pythoncom  # 导入 pythoncom
+
+from sqlalchemy.orm import joinedload
 from werkzeug.utils import secure_filename
 from cuba.extends import db
 from cuba.models import *
@@ -30,7 +38,7 @@ def inject_user_info():
 @medical.route('/importPicture')
 @login_required
 def import_picture():
-    users = User.query.all()  # 获取所有用户
+    users = UserMessage.query.all()  # 获取所有用户
     ages = [user.age for user in users]  # 获取所有用户的年龄
     context = {"breadcrumb": {"parent": "3D医疗图片解析", "child": "解析医疗图片", "jsFunction": 'startTime()'}}
     return render_template("medical/importPicture/importPicture.html", **context, users=users, ages=ages)
@@ -44,9 +52,21 @@ def view_picture():
     # per_page: 每页显示数据量
     per_page = int(request.args.get('per_page', 6))
 
-    medical_pictures = MedicalPicture.query.join(User, (MedicalPicture.user_id == User.id)).paginate(page=page, per_page=per_page, error_out=False)
-    processes = MedicalPicture.query.filter(MedicalPicture.isDoing).paginate(page=page, per_page=per_page, error_out=False)
-    completes = MedicalPicture.query.filter(~MedicalPicture.isDoing).paginate(page=page, per_page=per_page, error_out=False)
+    medical_pictures = (MedicalPicture.query
+                        .join(User, MedicalPicture.user_id == User.id)
+                        .join(UserMessage, User.id == UserMessage.user_id)
+                        .options(joinedload('user'), joinedload('user.user_message'))
+                        .paginate(page=page, per_page=per_page, error_out=False))
+    processes = (MedicalPicture.query
+                 .filter(MedicalPicture.isDoing)
+                 .join(User, MedicalPicture.user_id == User.id)
+                 .options(joinedload('user'), joinedload('user.user_message'))
+                 .paginate(page=page, per_page=per_page, error_out=False))
+    completes = (MedicalPicture.query
+                 .filter(~MedicalPicture.isDoing)
+                 .join(User, MedicalPicture.user_id == User.id)
+                 .options(joinedload('user'), joinedload('user.user_message'))
+                 .paginate(page=page, per_page=per_page, error_out=False))
     context = {"breadcrumb": {"parent": "3D医疗图片解析", "child": "查看医疗图片"}}
     return render_template("medical/viewPicture/viewPicture.html", **context, medical_pictures=medical_pictures, processes=processes, complates=completes)
 
@@ -77,9 +97,10 @@ def Pictures():
     # 根据 output 和 submit 查询医疗图片信息
     medical_picture = MedicalPicture.query.filter_by(outputImage=output, submitImage=submit).first()
     if medical_picture:
-        # 如果找到医疗图片信息，则获取用户 ID 和图片信息
         user_id = medical_picture.user_id
-        user = User.query.get(user_id)  # 查询用户信息
+        # 如果找到医疗图片信息，则获取用户 ID 和图片信息
+        user = medical_picture.user  # 获取用户信息
+        user_message = user.user_message  # 获取用户详细信息
         image_info = {
             'id': medical_picture.id,
             'imageType': medical_picture.imageType,
@@ -91,12 +112,17 @@ def Pictures():
             'user': {
                 'id': user.id,
                 'username': user.username,
-                'userHead': user.userHead,
                 'email': user.email,
-                'name': user.name,
-                'age': user.age,
-                'idCard': user.idCard,
-                'isAdmin': user.isAdmin
+                'isAdmin': user.isAdmin,
+                'user_message':{
+                    'id': user_message.id,
+                    'userHead': user_message.userHead,
+                    'name': user_message.name,
+                    'age': user_message.age,
+                    'sex': user_message.sex,
+                    'asset': user_message.asset,
+                    'idCard': user_message.idCard
+                }
             }
         }
     else:
@@ -210,6 +236,148 @@ def queryModal():
     return jsonify({'modal_list': modal_list})
 
 
+@medical.route('/insertMoadlDocx', methods=['POST'])
+@login_required
+def insertModalDocx():
+    try:
+        image_id = request.form.get('image_id')
+        # 查询相关信息
+        medical_picture_info = MedicalPicture.query.filter_by(id=image_id).first()
+        user_info = User.query.filter_by(id=medical_picture_info.user_id).first()
+        user_message_info = UserMessage.query.filter_by(user_id=user_info.id).first()
+        modal_list_info = ModalList.query.filter_by(image_id=image_id).all()
+
+        # 读取docx模板
+        template_path = os.path.join(current_app.root_path, 'static', 'word', 'template.docx')
+        doc = Document(template_path)
+
+        # 替换表格占位符
+        placeholders = {
+            '{{username}}': user_info.username,
+            '{{name}}': user_message_info.name,
+            '{{sex}}': '男' if user_message_info.sex == 1 else '女',
+            '{{age}}': str(user_message_info.age),
+            '{{imageType}}': medical_picture_info.imageType,
+            '{{uploadTime}}': str(medical_picture_info.uploadTime),
+            '{{phone}}': user_message_info.phone,
+            '{{idCard}}': str(user_message_info.idCard),
+            '{{asset}}': user_message_info.asset
+        }
+
+        for table in doc.tables:
+            for row in table.rows:
+                for cell in row.cells:
+                    for key, value in placeholders.items():
+                        if key in cell.text:
+                            # 保留原始字体格式
+                            for paragraph in cell.paragraphs:
+                                for run in paragraph.runs:
+                                    if key in run.text:
+                                        run.text = run.text.replace(key, value)
+
+        # 循环插入ModalList信息
+        for index, item in enumerate(modal_list_info):
+            if index == 0:
+                # 如果是第一条记录，直接替换原有的占位符
+                for paragraph in doc.paragraphs:
+                    if '{{description}}' in paragraph.text:
+                        paragraph.text = paragraph.text.replace('{{description}}','\t' + item.description)
+                    if '{{image}}' in paragraph.text:
+                        # 删除原有的占位符
+                        paragraph.text = paragraph.text.replace('{{image}}', '')
+                        # 添加图片
+                        run = paragraph.add_run()
+                        image_path = os.path.join(current_app.root_path, item.image.lstrip('/'))
+                        run.add_picture(image_path, width=docx.shared.Cm(14.5), height=docx.shared.Cm(5.2))
+            else:
+                # 如果不是第一条记录，在报告医师信息的上一行插入新段落并插入数据
+                paragraphs_copy, paragraphs_iter = tee(doc.paragraphs)
+                for i, paragraph in enumerate(paragraphs_iter):
+                    if '报告医师：' in paragraph.text:
+                        # 在报告医师信息的上一行插入空白行
+                        doc.paragraphs[i - 1].insert_paragraph_before()
+
+                        # 在空白行之后插入新段落
+                        new_paragraph = doc.paragraphs[i].insert_paragraph_before()
+
+                        # 插入诊断描述和图片信息
+                        new_run1 = new_paragraph.add_run(f"诊断描述：\n")
+                        new_run1.font.name = '宋体'  # 设置字体为宋体
+                        new_run1.font.size = Pt(12)  # 设置字号为12磅
+                        new_paragraph.add_run('\t')  # 添加制表符实现缩进
+                        new_paragraph.add_run(item.description)
+                        new_run2 =  new_paragraph.add_run(f"\n诊断图片：\n")  # 设置字体为宋体
+                        new_run2.font.name = '宋体'  # 设置字体为宋体
+                        new_run2.font.size = Pt(12)  # 设置字号为12磅
+                        image_path = os.path.join(current_app.root_path, item.image.lstrip('/'))
+                        new_paragraph.add_run().add_picture(image_path, width=docx.shared.Cm(14.5),
+                                                            height=docx.shared.Cm(5.2))
+                        break
+
+                # 添加一个空行，用于分隔不同的记录
+                doc.add_paragraph()
+
+        docx_filename = f"{image_id}_{user_message_info.name}_{medical_picture_info.imageType}.docx"
+        folder_name = os.path.splitext(docx_filename)[0]  # 去掉文件尾缀
+        docx_folder = os.path.join(current_app.root_path, 'static', 'word', folder_name)  # 使用去掉尾缀后的文件名作为文件夹名
+
+        # 确保文件夹存在，如果不存在则创建
+        if not os.path.exists(docx_folder):
+            os.makedirs(docx_folder)
+
+        # 保存 DOCX 文件
+        docx_path = os.path.join(docx_folder, docx_filename)
+        doc.save(docx_path)
+
+        pythoncom.CoInitialize()  # 初始化 COM 线程
+        # 构建 PDF 文件路径
+        pdf_filename = docx_filename.replace('.docx', '.pdf')
+        pdf_folder = docx_folder  # 与 DOCX 文件相同的目录
+        pdf_path = os.path.join(pdf_folder, pdf_filename)
+
+        # 将 DOCX 文件转换为 PDF
+        convert(docx_path, pdf_path)
+
+        # 构建目标文件的路径
+        docx_save_path = os.path.join('/static', 'word', folder_name, docx_filename)
+        pdf_save_path = os.path.join('/static', 'word', folder_name, pdf_filename)
+
+        # 替换所有路径中的反斜杠为正斜杠
+        docx_save_path = docx_save_path.replace('\\', '/')
+        pdf_save_path = pdf_save_path.replace('\\', '/')
+
+        # 将路径保存到数据库中
+        medical_picture_info.pdf_path = pdf_save_path
+        medical_picture_info.docx_path = docx_save_path
+
+        db.session.commit()
+
+        # 返回 JSON 响应
+        return jsonify({'message': '报告生成成功!'}), 200
+    except Exception as e:
+        # 返回 JSON 响应，表示修改失败
+        return jsonify({'error': str(e)}), 500
+
+
+# -------------------File Manager
+@medical.route('/file_manager/')
+@login_required
+def file_manager():
+    # 页码：默认显示第一页
+    page = int(request.args.get('page', 1))
+    # per_page: 每页显示数据量
+    per_page = int(request.args.get('per_page', 7))
+
+    medical_pictures = (MedicalPicture.query
+                        .join(User, MedicalPicture.user_id == User.id)
+                        .join(UserMessage, User.id == UserMessage.user_id)
+                        .options(joinedload('user'), joinedload('user.user_message'))
+                        .paginate(page=page, per_page=per_page, error_out=False))
+
+    context = {"breadcrumb": {"parent": "文件管理", "child": "病例报告管理"}}
+    return render_template("applications/file-manager/file-manager.html", **context, medical_pictures=medical_pictures)
+
+
 @medical.route('/medical', methods=['POST'])
 @login_required
 def medical_add():
@@ -227,9 +395,9 @@ def medical_add():
             folder_name = f"{name}_{age}_{formatted_upload_time}"
 
             # 查询用户的唯一ID
-            user = User.query.filter_by(name=name, age=age).first()
+            user = UserMessage.query.filter_by(name=name, age=age).first()
             if user:
-                user_id = user.id
+                user_id = user.user_id
             else:
                 return jsonify({'error': '找不到对应的用户!'}), 400
 

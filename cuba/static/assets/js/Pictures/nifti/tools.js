@@ -2,7 +2,7 @@
 $('#screenPicture').click(function() {
     html2canvas($('#contentToScreenshot')[0], {
         width: 1500, // 指定截图宽度
-        height: 500 // 指定截图高度
+        height: 800, // 指定截图高度
     }).then(canvas => {
         // 获取截图的像素数据
         var context = canvas.getContext('2d');
@@ -318,6 +318,59 @@ function deleteModal(modalId) {
                 timer: 1500
             });
         });
+}
+
+// 报告生成函数
+function generateReport(imageId) {
+    // 显示加载中的提示
+    Swal.fire({
+    title: '报告生成中',
+    text: '请稍候...',
+    allowOutsideClick: false,
+    showConfirmButton: false, // 不显示确认按钮
+    onBeforeOpen: () => {
+        Swal.showLoading();
+    }
+});
+    // 发送生成报告请求到后端
+    $.ajax({
+        url: '/insertMoadlDocx',
+        type: 'POST',
+        data: { image_id: imageId },
+    })
+    .then(data => {
+        // 关闭加载提示
+        Swal.close();
+
+        console.log(data); // 打印响应数据
+
+        if (data.message === "报告生成成功!") {
+            // 处理报告生成成功的情况
+            Swal.fire({
+                icon: 'success',
+                title: '成功',
+                text: '报告生成成功!',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        } else {
+            // 处理报告生成失败的情况
+            throw new Error('报告生成失败');
+        }
+    })
+    .catch(error => {
+        console.error('错误:', error);
+        // 关闭加载提示
+        Swal.close();
+        // 处理错误情况
+        Swal.fire({
+            icon: 'error',
+            title: '生成失败',
+            text: '发生错误，请稍后重试',
+            showConfirmButton: false,
+            timer: 1500
+        });
+    });
 }
 
 // 监听按钮下拉列表

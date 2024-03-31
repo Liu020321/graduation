@@ -116,14 +116,6 @@ def projectcreate():
     return render_template("applications/projects/projectcreate/projectcreate.html", **context)
 
 
-# -------------------File Manager
-@main.route('/file_manager')
-@login_required
-def file_manager():
-    context = {"breadcrumb": {"parent": "Apps", "child": "File Manager"}}
-    return render_template("applications/file-manager/file-manager.html", **context)
-
-
 # ------------------Kanban Board
 @main.route('/kanban')
 @login_required
