@@ -328,6 +328,16 @@ def insertModalDocx():
         docx_path = os.path.join(docx_folder, docx_filename)
         doc.save(docx_path)
 
+        # from win32com.client import pythoncom  # 导入 pythoncom
+        # pythoncom.CoInitialize()  # 初始化 COM 线程
+        # # 构建 PDF 文件路径
+        # pdf_filename = docx_filename.replace('.docx', '.pdf')
+        # pdf_folder = docx_folder  # 与 DOCX 文件相同的目录
+        # pdf_path = os.path.join(pdf_folder, pdf_filename)
+        #
+        # # 将 DOCX 文件转换为 PDF
+        # convert(docx_path, pdf_path)
+
         # 创建 PDF 文件
         pdf_filename = docx_filename.replace('.docx', '.pdf')
         convert_to([docx_path], "pdf")
