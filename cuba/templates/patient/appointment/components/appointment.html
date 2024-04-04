@@ -1,0 +1,83 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <form class="form theme-form"  method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-xl-6 col-md-6">
+                            <div class="mb-3">
+                                <label>挂号科室</label>
+                               <select class="form-select text-dark" name="name">
+                                   {% for user in users %}
+                                    <option value="{{ user.name }}">{{ user.name }}</option>
+                                   {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-sm-6">
+                            <div class="mb-3">
+                                <label>医生姓名</label>
+                                <select class="form-select text-dark" name="imageType">
+                                    <option value="心脏">心脏</option>
+                                    <option value="肺部">肺部</option>
+                                    <option value="椎骨">椎骨</option>
+                                    <option value="肺肿瘤">肺肿瘤</option>
+                                    <option value="脑肿瘤">脑肿瘤</option>
+                                    <option value="多器官">多器官</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-md-6">
+                            <div class="mb-3">
+                                <label></label>
+                                <select class="form-select text-dark" name="age">
+                                   {% for age in ages %}
+                                    <option value="{{ age }}">{{ age }}</option>
+                                   {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-6">
+                            <div class="mb-3">
+                                <label>预约时间</label>
+                                <input class="datepicker-here form-control text-dark" name="uploadTime" type="text" data-language="en">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label>请输入病情描述</label>
+                                <textarea class="form-control text-dark" name="description" id="exampleFormControlTextarea4" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="text-end">
+                                <button type="submit" id="submit" class="btn btn-success me-3" href="/projects">添加</button>
+                                <button class="btn btn-danger"  id="clearFormBtn" >清空</button></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function() {
+        // 为清空按钮添加点击事件监听器
+        $("#clearFormBtn").click(function(e) {
+            // 阻止表单提交
+            e.preventDefault();
+            // 清空输入字段
+            $(".form-control").val("");
+            // 清空 Dropzone 中的文件
+            myDropzone.removeAllFiles(true);
+            // 重置下拉菜单的选中项
+            $("select").prop("selectedIndex", 0);
+        });
+    });
+</script>

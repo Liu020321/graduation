@@ -35,6 +35,7 @@ def login_post():
         session['username'] = user.username
         session['admin'] = user.isAdmin
         session['userHead'] = user_message.userHead
+        session['user_id'] = user.id
         if next_page:
             return redirect(next_page)
         else:

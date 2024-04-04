@@ -67,3 +67,22 @@ class ModalList(db.Model):
     images = db.relationship('MedicalPicture', foreign_keys=image_id, backref='modal_list')
 
 
+# 医生模型
+class Doctor(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(100), nullable=False)
+    department = db.Column(db.String(100), nullable=False)
+    schedule = db.Column(db.String(100), nullable=False)
+
+
+# 预约模型
+class Appointment(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'), nullable=False)
+    time = db.Column(db.DateTime, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
+    description = db.Column(db.String(255), nullable=False)
+    isRepeat = db.Column(db.Integer, nullable=False)
+    status = db.Column(db.Integer, nullable=False, default=1)
+
+

@@ -88,8 +88,11 @@
     {% endif %}
     <!-- Page Body Start -->
     <div class="page-body-wrapper">
-        {% include 'layout/sidebar.html' %}
-
+        {% if isAdmin %}
+            {% include 'layout/sidebar.html' %}
+        {% else %}
+            {% include 'layout/patient_sidebar.html' %}
+        {% endif %}
         {% block content %}
 
         {% endblock %}
