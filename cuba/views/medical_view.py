@@ -382,6 +382,43 @@ def file_manager():
     return render_template("applications/file-manager/file-manager.html", **context, medical_pictures=medical_pictures)
 
 
+@medical.route('/appointment-list/')
+@login_required
+def appointments():
+    # 页码：默认显示第一页
+    page = int(request.args.get('page', 1))
+    # per_page: 每页显示数据量
+    per_page = int(request.args.get('per_page', 7))
+    user_id = User.query.filter_by(username=session.get('username')).first().id
+    doctor_id = Doctor.query.filter_by(user_id=user_id).first().id
+    appointment_list = db.session.query(Appointment, Doctor, Department, UserMessage). \
+        join(Doctor, Appointment.doctor_id == Doctor.id). \
+        join(Department, Doctor.department_id == Department.id). \
+        join(UserMessage, Appointment.user_id == UserMessage.user_id). \
+        filter(Appointment.doctor_id == doctor_id). \
+        paginate(page=page, per_page=per_page)
+
+    context = {"breadcrumb": {"parent": "医疗应用", "child": "处理挂号"}}
+    return render_template('medical/view-appointment/view-appointment.html', **context, appointment_list=appointment_list)
+
+
+# 后台路由处理更新预约状态的请求
+@medical.route('/update_appointment_status', methods=['POST'])
+@login_required
+def update_appointment_status():
+    data = request.json
+    appointment_id = data.get('appointmentId')
+
+    # 根据预约 ID 更新预约状态为已处理
+    appointment = Appointment.query.get(appointment_id)
+    if appointment:
+        appointment.status = 0
+        db.session.commit()
+        return jsonify({'success': True})
+    else:
+        return jsonify({'success': False}), 400
+
+
 @medical.route('/medical', methods=['POST'])
 @login_required
 def medical_add():

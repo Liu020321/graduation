@@ -1,0 +1,143 @@
+<div class="col-sm-12">
+    <div class="card">
+        <div class="card-header">
+            <h3>挂号列表</h3>
+        </div>
+        <div class="card-block row">
+            <div class="col-sm-12 col-lg-12 col-xl-12">
+                <div class="table-responsive signal-table">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col" style="font-weight: bold">病人姓名</th>
+                            <th scope="col" style="font-weight: bold">年龄</th>
+                            <th scope="col" style="font-weight: bold">预约时间</th>
+                            <th scope="col" style="font-weight: bold">是否复诊</th>
+                            <th scope="col" style="font-weight: bold">状态</th>
+                            <th scope="col" style="font-weight: bold">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for appointment, doctor, department, user_message in appointment_list%}
+                            {% if appointment.id%4 == 0 %}
+                                <tr class="border-bottom-primary">
+                                    {% elif appointment.id%4 == 1 %}
+                                <tr class="border-bottom-success">
+                                    {% elif appointment.id%4 == 2 %}
+                                <tr class="border-bottom-info">
+                                    {% elif appointment.id%4 == 3 %}
+                                <tr class="border-bottom-secondary">
+                            {% endif %}
+                        <td>{{ user_message.name }}  </td>
+                        <td>{{ user_message.age }}</td>
+                        <td>{{ appointment.time }}</td>
+                        <td> {% if appointment.isRepeat %}是{% else %}否{% endif %} </td>
+                        <td id="appointment-{{ appointment.id }}-status">
+                            {% if appointment.status %}
+                                <span class="badge rounded-pill badge-danger">未处理</span>
+                            {% else %}
+                                <span class="badge rounded-pill badge-success">已处理</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <ul class="action">
+                                <li>
+                                    <button class="btn btn-primary update-status-btn" data-appointment-id="{{ appointment.id }}">结束</button>
+                                </li>
+                            </ul>
+                        </td>
+
+                        </tr>
+
+                            </tbody>
+                        {% endfor %}
+
+                    </table>
+                </div>
+                <div class="col-md-12 project-list">
+                    <div class="row">
+                        <div class="col-md-6 text-center" style="font-size: 15px; display: flex; align-items: center;">
+                            <span>共{{ appointment_list.total }}条记录,每页显示{{ appointment_list.per_page }}条,共{{ appointment_list.pages }}页</span>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- right aligned pagination-->
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-end pagination-primary">
+                                    <li class="page-item">
+                                        {% if appointment_list.has_prev %}
+                                            <a class="page-link" href="/appointment-list/?page={{ appointment_list.prev_num }}&per_page{{ appointment_list.per_page }}">上一页
+                                        {% else %}
+                                            <a class="page-link disabled" href="javascript:;">上一页
+                                        {% endif %}
+                                        </a>
+                                    </li>
+
+                                    {% for i in range(appointment_list.pages) %}
+                                        {% if appointment_list.page == i + 1 %}
+                                            <li class="page-item active">
+                                                {% else %}
+                                            <li class="page-item">
+                                        {% endif %}
+                                    <a class="page-link" href="/appointment-list/?page={{ i + 1 }}&per_page={{ appointment_list.per_page }}">{{ i + 1 }}</a></li>
+                                    {% endfor %}
+
+                                    <li class="page-item">
+                                        {% if appointment_list.has_next %}
+                                            <a class="page-link" href="/appointment-list/?page={{appointment_list.next_num }}&per_page={{ appointment_list.per_page }}">下一页
+                                        {% else %}
+                                            <a class="page-link disabled" href="javascript:;">下一页
+                                        {% endif %}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+// JavaScript 代码
+<script>
+    // 监听按钮点击事件
+    document.querySelectorAll('.update-status-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            // 获取预约 ID
+            var appointmentId = btn.getAttribute('data-appointment-id');
+
+            // 发送 AJAX 请求
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/update_appointment_status', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // 更新成功，根据后台返回的数据更新页面
+                        var data = JSON.parse(xhr.responseText);
+                        if (data.success) {
+                            // 更新页面中相应的状态标签，例如通过 DOM 操作更新状态标签的类名或文本内容
+                            var statusBadge = document.querySelector('#appointment-' + appointmentId + '-status');
+                            if (statusBadge) {
+                                var statusSpan = statusBadge.querySelector('span');
+                                if (statusSpan) {
+                                    statusSpan.textContent = '已处理';
+                                    statusSpan.classList.remove('badge-danger');
+                                    statusSpan.classList.add('badge-success');
+                                }
+                            }
+                        } else {
+                            // 更新失败，显示错误信息或采取其他操作
+                            console.error('Failed to update status');
+                        }
+                    } else {
+                        console.error('Failed to update status');
+                    }
+                }
+            };
+            // 发送包含预约 ID 的 JSON 数据
+            xhr.send(JSON.stringify({ appointmentId: appointmentId }));
+        });
+    });
+</script>

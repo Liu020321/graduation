@@ -2,14 +2,15 @@
     <div class="col-sm-12">
         <div class="card">
             <div class="card-body">
-                <form class="form theme-form"  method="post" enctype="multipart/form-data">
+                <form class="form theme-form"  id="appointmentForm" action="/make_appointment" method="post">
                     <div class="row">
                         <div class="col-xl-6 col-md-6">
                             <div class="mb-3">
                                 <label>挂号科室</label>
-                               <select class="form-select text-dark" name="name">
-                                   {% for user in users %}
-                                    <option value="{{ user.name }}">{{ user.name }}</option>
+                               <select class="form-select text-dark" id="department" name="department">
+                                   <option value="" selected></option>
+                                   {% for department in departments %}
+                                    <option value="{{ department.id }}">{{ department.name }}</option>
                                    {% endfor %}
                                 </select>
                             </div>
@@ -17,30 +18,25 @@
                         <div class="col-xl-6 col-sm-6">
                             <div class="mb-3">
                                 <label>医生姓名</label>
-                                <select class="form-select text-dark" name="imageType">
-                                    <option value="心脏">心脏</option>
-                                    <option value="肺部">肺部</option>
-                                    <option value="椎骨">椎骨</option>
-                                    <option value="肺肿瘤">肺肿瘤</option>
-                                    <option value="脑肿瘤">脑肿瘤</option>
-                                    <option value="多器官">多器官</option>
+                                <select class="form-select text-dark" id="doctor" name="doctor">
+
                                 </select>
                             </div>
                         </div>
                         <div class="col-xl-6 col-md-6">
                             <div class="mb-3">
-                                <label></label>
-                                <select class="form-select text-dark" name="age">
-                                   {% for age in ages %}
-                                    <option value="{{ age }}">{{ age }}</option>
-                                   {% endfor %}
+                                <label>是否复诊</label>
+                                <select class="form-select text-dark" name="isRepeat">
+                                    <option value="" selected></option>
+                                    <option value="0">否</option>
+                                    <option value="1">是</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-6">
                             <div class="mb-3">
-                                <label>预约时间</label>
-                                <input class="datepicker-here form-control text-dark" name="uploadTime" type="text" data-language="en">
+                                <label id="remainingQuotaLabel">预约时间，剩余名额：待更新</label>
+                                <input id="time" class="datepicker-here form-control text-dark" name="time" type="text" data-language="en">
                             </div>
                         </div>
                     </div>
@@ -55,7 +51,7 @@
                     <div class="row">
                         <div class="col">
                             <div class="text-end">
-                                <button type="submit" id="submit" class="btn btn-success me-3" href="/projects">添加</button>
+                                <button type="button" id="submit" class="btn btn-success me-3">添加</button>
                                 <button class="btn btn-danger"  id="clearFormBtn" >清空</button></div>
                         </div>
                     </div>
@@ -66,18 +62,135 @@
 </div>
 
 
-<script>
-    $(document).ready(function() {
-        // 为清空按钮添加点击事件监听器
-        $("#clearFormBtn").click(function(e) {
-            // 阻止表单提交
-            e.preventDefault();
-            // 清空输入字段
-            $(".form-control").val("");
-            // 清空 Dropzone 中的文件
-            myDropzone.removeAllFiles(true);
-            // 重置下拉菜单的选中项
-            $("select").prop("selectedIndex", 0);
+    <script>
+        // 当选择科室时，加载对应科室的医生列表
+        document.getElementById('department').addEventListener('change', function() {
+            var departmentId = this.value;
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/get_doctors', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var doctors = JSON.parse(xhr.responseText);
+                        var doctorSelect = document.getElementById('doctor');
+                        doctorSelect.innerHTML = '';
+                        doctors.forEach(function(doctor) {
+                            var option = document.createElement('option');
+                            option.value = doctor.id;
+                            option.textContent = doctor.name+'(排班时间为：'+doctor.schedule+')';
+                            doctorSelect.appendChild(option);
+                        });
+                    } else {
+                        console.error('Failed to load doctors');
+                    }
+                }
+            };
+            xhr.send('department_id=' + departmentId);
         });
-    });
-</script>
+
+document.getElementById('time').addEventListener('change', function () {
+    // 获取选择的医生ID
+    var doctorId = document.getElementById('doctor').value;
+
+    // 获取输入的日期
+    var selectedDate = this.value;
+
+    // 如果日期为空，则不发送请求
+    if (selectedDate.trim() === '') {
+        return;
+    }
+
+    // 发送请求获取剩余名额
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/get_remaining_quota', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                var data = JSON.parse(xhr.responseText);
+                var remainingQuotaLabel = document.getElementById('remainingQuotaLabel');
+                remainingQuotaLabel.innerText = '预约时间，剩余名额：' + data.remainingQuota;
+                if (data.remainingQuota <= 0) {
+                    // 如果名额不足，弹出 SweetAlert 提示
+                    Swal.fire({
+                        icon: 'error',
+                        title: '名额不足',
+                        text: '该时间段的预约名额已满，请选择其他时间或医生。',
+                        confirmButtonText: '确定'
+                    });
+                }
+            } else {
+                 // 如果名额不足，弹出 SweetAlert 提示
+                    Swal.fire({
+                        icon: 'error',
+                        title: '排班不对',
+                        text: '该时间段医生没有排班，请更换时间，或选择其他时间或医生。',
+                        confirmButtonText: '确定'
+                    });
+            }
+        }
+    };
+    xhr.send(JSON.stringify({ doctorId: doctorId, selectedDate: selectedDate }));
+});
+
+
+// 创建一个提交按钮
+var submitButton = document.createElement('button');
+submitButton.setAttribute('type', 'submit');
+submitButton.setAttribute('style', 'display: none'); // 隐藏按钮，不在页面上显示
+document.getElementById('appointmentForm').appendChild(submitButton);
+
+document.getElementById('submit').addEventListener('click', function (event) {
+    // 阻止表单默认提交行为
+    event.preventDefault();
+
+    // 获取选择的医生ID
+    var doctorId = document.getElementById('doctor').value;
+
+    // 获取输入的日期
+    var selectedDate = document.getElementById('time').value;
+
+    // 如果日期为空，则不发送请求
+    if (selectedDate.trim() === '') {
+        return;
+    }
+
+    // 发送请求获取剩余名额
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/get_remaining_quota', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                var data = JSON.parse(xhr.responseText);
+                var remainingQuotaLabel = document.getElementById('remainingQuotaLabel');
+                remainingQuotaLabel.innerText = '预约时间，剩余名额：' + data.remainingQuota;
+                if (data.remainingQuota <= 0) {
+                    // 如果名额不足，弹出 SweetAlert 提示
+                    Swal.fire({
+                        icon: 'error',
+                        title: '名额不足',
+                        text: '该时间段的预约名额已满，请选择其他时间或医生。',
+                        confirmButtonText: '确定'
+                    });
+                } else {
+                    // 名额充足，提交表单
+                    submitButton.click();
+                }
+            } else {
+                 // 如果名额不足，弹出 SweetAlert 提示
+                    Swal.fire({
+                        icon: 'error',
+                        title: '排班不对',
+                        text: '该时间段医生没有排班，请更换时间，或选择其他时间或医生。',
+                        confirmButtonText: '确定'
+                    });
+            }
+        }
+    };
+    xhr.send(JSON.stringify({ doctorId: doctorId, selectedDate: selectedDate }));
+});
+
+
+    </script>

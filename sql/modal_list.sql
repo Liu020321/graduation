@@ -21,3 +21,5 @@ INSERT INTO graduation.modal_list (id, image_id, description, image, image_time)
 INSERT INTO graduation.modal_list (id, image_id, description, image, image_time) VALUES (14, 4, '测试八零', '/static/assets/images/Pictures/4/2024-03-31_15_00_image.png', '2024-03-31 15:00:00');
 INSERT INTO graduation.modal_list (id, image_id, description, image, image_time) VALUES (15, 5, '134564597841132156da56aa561d3', '/static/assets/images/Pictures/5/2024-03-31_18_29_image.png', '2024-03-31 18:29:00');
 INSERT INTO graduation.modal_list (id, image_id, description, image, image_time) VALUES (16, 5, '中华省市', '/static/assets/images/Pictures/5/2024-03-31_18_29_image.png', '2024-03-31 18:29:00');
+INSERT INTO graduation.modal_list (id, image_id, description, image, image_time) VALUES (17, 4, 'jdkajdaksljdlka', '/static/assets/images/Pictures/4/2024-04-01_17_40_image.png', '2024-04-01 17:40:00');
+INSERT INTO graduation.modal_list (id, image_id, description, image, image_time) VALUES (18, 11, 'test123', '/static/assets/images/Pictures/11/2024-04-02_19_07_image.png', '2024-04-02 19:07:00');

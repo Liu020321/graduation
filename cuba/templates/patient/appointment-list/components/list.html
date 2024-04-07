@@ -1,0 +1,95 @@
+<div class="col-sm-12">
+    <div class="card">
+        <div class="card-header">
+            <h3>报告列表</h3>
+        </div>
+        <div class="card-block row">
+            <div class="col-sm-12 col-lg-12 col-xl-12">
+                <div class="table-responsive signal-table">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col" style="font-weight: bold">科室</th>
+                            <th scope="col" style="font-weight: bold">医生</th>
+                            <th scope="col" style="font-weight: bold">预约时间</th>
+                            <th scope="col" style="font-weight: bold">是否复诊</th>
+                            <th scope="col" style="font-weight: bold">检查状态</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for appointment, doctor, department, user_message in appointment_list%}
+                            {% if appointment.id%4 == 0 %}
+                                <tr class="border-bottom-primary">
+                                    {% elif appointment.id%4 == 1 %}
+                                <tr class="border-bottom-success">
+                                    {% elif appointment.id%4 == 2 %}
+                                <tr class="border-bottom-info">
+                                    {% elif appointment.id%4 == 3 %}
+                                <tr class="border-bottom-secondary">
+                            {% endif %}
+                            <td>{{ department.name }}</td>
+                        <td>{{ user_message.name }}  </td>
+                        <td>{{ appointment.time }}</td>
+                        <td> {% if appointment.isRepeat %}
+                        是
+                        {% else %}
+                        否
+                        {% endif %}
+                        </td>
+                            {% if appointment.status %}
+                            <td> <span class="badge rounded-pill badge-danger">待检查</span></td>
+                            {% else %}
+                            <td> <span class="badge rounded-pill badge-success">已检查</span></td>
+                            {% endif
+                                    %}
+                        </tr>
+
+                            </tbody>
+                        {% endfor %}
+
+                    </table>
+                </div>
+                <div class="col-md-12 project-list">
+                    <div class="row">
+                        <div class="col-md-6 text-center" style="font-size: 15px; display: flex; align-items: center;">
+                            <span>共{{  appointment_list.total }}条记录,每页显示{{  appointment_list.per_page }}条,共{{  appointment_list.pages }}页</span>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- right aligned pagination-->
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-end pagination-primary">
+                                    <li class="page-item">
+                                        {% if  appointment_list.has_prev %}
+                                            <a class="page-link" href="/appointments/?page={{  appointment_list.prev_num }}&per_page{{ appointment_list.per_page }}">上一页
+                                        {% else %}
+                                            <a class="page-link disabled" href="javascript:;">上一页
+                                        {% endif %}
+                                        </a>
+                                    </li>
+
+                                    {% for i in range( appointment_list.pages) %}
+                                        {% if  appointment_list.page == i + 1 %}
+                                            <li class="page-item active">
+                                                {% else %}
+                                            <li class="page-item">
+                                        {% endif %}
+                                    <a class="page-link" href="/appointments/?page={{ i + 1 }}&per_page={{  appointment_list.per_page }}">{{ i + 1 }}</a></li>
+                                    {% endfor %}
+
+                                    <li class="page-item">
+                                        {% if appointment_list.has_next %}
+                                            <a class="page-link" href="/appointments/?page={{  appointment_list.next_num }}&per_page={{appointment_list.per_page }}">下一页
+                                        {% else %}
+                                            <a class="page-link disabled" href="javascript:;">下一页
+                                        {% endif %}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

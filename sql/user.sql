@@ -15,3 +15,7 @@ create table user
 INSERT INTO graduation.user (id, username, email, password, isAdmin) VALUES (1, 'Lht2002321', '164755927@qq.com', 'sha256$ibaSKLSEJW9jaBNS$5b0be8009bc9ba62f9a983a2b54cd32e43a2a63e24e0e2eaf052d1fedbcdc90e', 1);
 INSERT INTO graduation.user (id, username, email, password, isAdmin) VALUES (2, 'Zcg13', '1@qq.com', 'sha256$ibaSKLSEJW9jaBNS$5b0be8009bc9ba62f9a983a2b54cd32e43a2a63e24e0e2eaf052d1fedbcdc90e', 0);
 INSERT INTO graduation.user (id, username, email, password, isAdmin) VALUES (3, 'Lvb', '2@qq.com', 'sha256$ibaSKLSEJW9jaBNS$5b0be8009bc9ba62f9a983a2b54cd32e43a2a63e24e0e2eaf052d1fedbcdc90e', 0);
+INSERT INTO graduation.user (id, username, email, password, isAdmin) VALUES (4, 'Jinja2', '3@qq.com', 'sha256$ibaSKLSEJW9jaBNS$5b0be8009bc9ba62f9a983a2b54cd32e43a2a63e24e0e2eaf052d1fedbcdc90e', 1);
+INSERT INTO graduation.user (id, username, email, password, isAdmin) VALUES (5, 'Django', '4@qq.com', 'sha256$ibaSKLSEJW9jaBNS$5b0be8009bc9ba62f9a983a2b54cd32e43a2a63e24e0e2eaf052d1fedbcdc90e', 1);
+INSERT INTO graduation.user (id, username, email, password, isAdmin) VALUES (6, 'Spring', '5@qq.com', 'sha256$ibaSKLSEJW9jaBNS$5b0be8009bc9ba62f9a983a2b54cd32e43a2a63e24e0e2eaf052d1fedbcdc90e', 1);
+INSERT INTO graduation.user (id, username, email, password, isAdmin) VALUES (7, 'Mybatis', '6@qq.com', 'sha256$ibaSKLSEJW9jaBNS$5b0be8009bc9ba62f9a983a2b54cd32e43a2a63e24e0e2eaf052d1fedbcdc90e', 1);

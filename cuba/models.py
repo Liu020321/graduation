@@ -67,11 +67,25 @@ class ModalList(db.Model):
     images = db.relationship('MedicalPicture', foreign_keys=image_id, backref='modal_list')
 
 
+class Department(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(255))
+    department_code = db.Column(db.String(20), unique=True)
+    department_director = db.Column(db.String(100))
+    establishment_date = db.Column(db.Date)
+    address = db.Column(db.String(255))
+    phone = db.Column(db.String(20))
+
+    def __repr__(self):
+        return f"Department('{self.name}', '{self.description}')"
+
+
 # 医生模型
 class Doctor(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(100), nullable=False)
-    department = db.Column(db.String(100), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
+    department_id = db.Column(db.Integer, db.ForeignKey(Department.id), nullable=False)
     schedule = db.Column(db.String(100), nullable=False)
 
 
@@ -79,7 +93,7 @@ class Doctor(db.Model):
 class Appointment(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'), nullable=False)
-    time = db.Column(db.DateTime, nullable=False)
+    time = db.Column(db.Date, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
     description = db.Column(db.String(255), nullable=False)
     isRepeat = db.Column(db.Integer, nullable=False)

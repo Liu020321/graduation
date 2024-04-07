@@ -60,6 +60,13 @@
               <li><a href="/importPicture">解析医疗图片</a></li>
             </ul>
           </li>
+            <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/appointment-list/">
+              <svg class="stroke-icon">
+                <use href="{{ url_for('static', filename='assets/svg/icon-sprite.svg')}}#stroke-task"></use>
+              </svg>
+              <svg class="fill-icon">
+                <use href="{{ url_for('static', filename='assets/svg/icon-sprite.svg')}}#fill-task"> </use>
+              </svg><span>处理挂号</span></a></li>
           <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/file_manager/">
               <svg class="stroke-icon">
                 <use href="{{ url_for('static', filename='assets/svg/icon-sprite.svg')}}#stroke-file"></use>
