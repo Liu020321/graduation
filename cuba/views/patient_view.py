@@ -94,10 +94,10 @@ def apply_appointment():
     return render_template('patient/appointment/appointment.html', **context, departments=departments)
 
 
-@patient.route('/get_doctors', methods=['POST'])
+@patient.route('/get_doctors', methods=['POST', 'GET'])
 @login_required
 def get_doctors():
-    department_id = request.form.get('department_id')
+    department_id = request.args.get('department_id') or request.form.get('department_id')
     doctors = Doctor.query.filter_by(department_id=department_id).all()
     doctors_data = [{'id': doctor.id, 'name': UserMessage.query.filter_by(user_id=doctor.user_id).first().name, 'schedule': doctor.schedule} for doctor in doctors]
 
