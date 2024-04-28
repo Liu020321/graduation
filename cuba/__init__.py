@@ -79,11 +79,13 @@ def load_user(user_id):
 
 from cuba.views.medical_view import medical as medical_blueprint
 from cuba.views.patient_view import patient as patient_blueprint
+from cuba.views.phone_view import phone as phone_blueprint
 # 注册蓝图
 app.register_blueprint(main_blueprint)
 app.register_blueprint(auth_blueprint)
 app.register_blueprint(medical_blueprint)
 app.register_blueprint(patient_blueprint)
+app.register_blueprint(phone_blueprint)
 
 admin.add_view(ModelView(Todo, db.session))
 admin.add_view(ModelView(User, db.session))

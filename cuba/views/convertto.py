@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+# !/usr/bin/python3
 
 #**
 # * Copyright (c) 2020 Weitian Leung

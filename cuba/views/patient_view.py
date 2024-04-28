@@ -1,7 +1,10 @@
+import hashlib
+
 from flask import Flask, render_template, redirect, flash, Blueprint, request, session, jsonify, current_app, url_for
 from flask_login import login_required
 import datetime
 from sqlalchemy.orm import joinedload
+from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
 from cuba.extends import db
 from cuba.models import *
@@ -68,7 +71,7 @@ def make_appointment():
 
 
 # 预约记录页面路由
-@patient.route('/appointments/')
+@patient.route('/appointments')
 def appointments():
     # 页码：默认显示第一页
     page = int(request.args.get('page', 1))
@@ -94,8 +97,15 @@ def apply_appointment():
     return render_template('patient/appointment/appointment.html', **context, departments=departments)
 
 
+@patient.route('/get_department')
+def get_department():
+    departments = Department.query.all()
+    department_data = [{'department_id': department.id, 'department_name': department.name} for department in departments]
+    return jsonify(department_data)
+
+
+
 @patient.route('/get_doctors', methods=['POST', 'GET'])
-@login_required
 def get_doctors():
     department_id = request.args.get('department_id') or request.form.get('department_id')
     doctors = Doctor.query.filter_by(department_id=department_id).all()

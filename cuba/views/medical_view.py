@@ -4,10 +4,11 @@ import docx
 from docx import Document
 from itertools import tee, islice
 from docx.shared import Pt, Cm, Inches
+
 from flask import Flask, render_template, redirect, flash, Blueprint, request, session, jsonify, current_app, url_for
 from flask_login import login_required
 import datetime
-from .convertto import convert_to
+# from .convertto import convert_to
 
 from sqlalchemy.orm import joinedload
 from werkzeug.utils import secure_filename
@@ -329,6 +330,7 @@ def insertModalDocx():
         doc.save(docx_path)
 
         # from win32com.client import pythoncom  # 导入 pythoncom
+        # from docx2pdf import convert
         # pythoncom.CoInitialize()  # 初始化 COM 线程
         # # 构建 PDF 文件路径
         # pdf_filename = docx_filename.replace('.docx', '.pdf')
@@ -337,8 +339,8 @@ def insertModalDocx():
         #
         # # 将 DOCX 文件转换为 PDF
         # convert(docx_path, pdf_path)
-
-        # 创建 PDF 文件
+        #
+        # # 创建 PDF 文件
         pdf_filename = docx_filename.replace('.docx', '.pdf')
         convert_to([docx_path], "pdf")
 
