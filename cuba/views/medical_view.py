@@ -8,7 +8,7 @@ from docx.shared import Pt, Cm, Inches
 from flask import Flask, render_template, redirect, flash, Blueprint, request, session, jsonify, current_app, url_for
 from flask_login import login_required
 import datetime
-# from .convertto import convert_to
+from .convertto import convert_to
 
 from sqlalchemy.orm import joinedload
 from werkzeug.utils import secure_filename
